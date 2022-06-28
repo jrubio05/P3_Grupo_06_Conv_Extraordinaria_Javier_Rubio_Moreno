@@ -39,7 +39,7 @@
 JuegoZombis/Temp
 JuegoZombis/MotorOla/Temp
 
-# Configuración de Visual Studio
+# ConfiguraciÃ³n de Visual Studio
 JuegoZombis/.vs
 JuegoZombis/MotorOla/.vs
 
@@ -65,6 +65,11 @@ JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Build
 *.recipe
 *.lastbuildstate
 *.vcxproj.FileListAbsolute.txt
+JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/bin/win.x86_64.vc142.md/release/PhysX_64.map
+JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/bin/win.x86_64.vc142.md/release/PhysXCommon_64.map
+JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/bin/win.x86_64.vc142.md/release/PhysXCooking_64.map
+JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/include/PxConfig.h
+JuegoZombis/MotorOla/Exes/ogre.cfg
 
 # Excepciones
 !JuegoZombis/MotorOla/Dependencies/**

@@ -1,0 +1,9 @@
+cd Exes
+del *.log
+del *.lib
+del *.exp
+del *.pdb
+del *.ipdb
+del *.iobj
+del ogre.cfg
+cd ..

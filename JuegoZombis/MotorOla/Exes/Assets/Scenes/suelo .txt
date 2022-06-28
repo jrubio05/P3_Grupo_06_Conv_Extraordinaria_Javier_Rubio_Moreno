@@ -1,0 +1,30 @@
+        {
+            name="Suelo",
+            id=5,
+            components={
+                transform={
+                    parent="-1",
+                    position="0,0,0",
+                    rotation="0,0,0",
+                    scale="18,1,18"
+                },
+                mesh={
+                    mesh="cube.mesh",
+                    material="Floor",
+                    visible="true"
+                },  
+                collider={
+                    type="box",
+                    x="18",
+                    y="1",
+                    z="18",
+                    trigger="false"
+                },
+                rigidbody={
+                    position="0,0,0",
+                    static="true"
+                }
+            }
+        },
+
+lo dejo aqui mientras hago cosas por el problema de ver las cosas debajo del suelo

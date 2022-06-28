@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Src\includes\bfs.h" />
+    <ClInclude Include="..\..\Src\includes\EndState.h" />
+    <ClInclude Include="..\..\Src\includes\framework.h" />
+    <ClInclude Include="..\..\Src\includes\GameManager.h" />
+    <ClInclude Include="..\..\Src\includes\generaAleatorio.h" />
+    <ClInclude Include="..\..\Src\includes\grafo.h" />
+    <ClInclude Include="..\..\Src\includes\grafoConObstaculos.h" />
+    <ClInclude Include="..\..\Src\includes\Juego.h" />
+    <ClInclude Include="..\..\Src\includes\Jugador.h" />
+    <ClInclude Include="..\..\Src\includes\LookatMouse.h" />
+    <ClInclude Include="..\..\Src\includes\MainMenu.h" />
+    <ClInclude Include="..\..\Src\includes\MoveBullet.h" />
+    <ClInclude Include="..\..\Src\includes\Options.h" />
+    <ClInclude Include="..\..\Src\includes\pch.h" />
+    <ClInclude Include="..\..\Src\includes\Personaje.h" />
+    <ClInclude Include="..\..\Src\includes\Shoot.h" />
+    <ClInclude Include="..\..\Src\includes\SpawnZombis.h" />
+    <ClInclude Include="..\..\Src\includes\zombieMove.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\bfs.cpp" />
+    <ClCompile Include="..\..\Src\dllmain.cpp" />
+    <ClCompile Include="..\..\Src\EndState.cpp" />
+    <ClCompile Include="..\..\Src\GameManager.cpp" />
+    <ClCompile Include="..\..\Src\generaAleatorio.cpp" />
+    <ClCompile Include="..\..\Src\grafo.cpp" />
+    <ClCompile Include="..\..\Src\grafoConObstaculos.cpp" />
+    <ClCompile Include="..\..\Src\Juego.cpp" />
+    <ClCompile Include="..\..\Src\Jugador.cpp" />
+    <ClCompile Include="..\..\Src\LookatMouse.cpp" />
+    <ClCompile Include="..\..\Src\MainMenu.cpp" />
+    <ClCompile Include="..\..\Src\MoveBullet.cpp" />
+    <ClCompile Include="..\..\Src\Options.cpp" />
+    <ClCompile Include="..\..\Src\pch.cpp" />
+    <ClCompile Include="..\..\Src\Personaje.cpp" />
+    <ClCompile Include="..\..\Src\Shoot.cpp" />
+    <ClCompile Include="..\..\Src\SpawnZombis.cpp" />
+    <ClCompile Include="..\..\Src\zombieMove.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{fc892fdb-f025-4550-b177-1c81d8d8885f}</ProjectGuid>
+    <RootNamespace>ZombisProject</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>GameProject</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)MotorOla\Exes</OutDir>
+    <IntDir>$(SolutionDir)Temp\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>Juego</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(solutionDir)MotorOla\Dependencies\Ogre\Build\SDL-main\include\;$(solutionDir)MotorOla\Dependencies\Ogre\Build\SDL2-2.0.20\include\;$(solutionDir)MotorOla\Dependencies\Ogre\Build\SDL2-build\include\;$(solutionDir)MotorOla\Dependencies\Ogre\Src\OgreMain\include;$(solutionDir)MotorOla\Dependencies\Ogre\Build\include;$(solutionDir)MotorOla\Src\MotorOla\;$(solutionDir)MotorOla\Dependencies\FMOD\inc;$(SolutionDir)MotorOla\Dependencies\PhysX-4.1\Src\physx\include;$(SolutionDir)MotorOla\Dependencies\PhysX-4.1\Src\pxshared\include;$(SolutionDir)MotorOla\Dependencies\Lua\include;$(solutionDir)Src\includes;$(SolutionDir)MotorOla\Dependencies\Ogre\Src\Components\Overlay\include\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)MotorOla\Exes;$(solutionDir)MotorOla\Dependencies\Ogre\Build\lib\$(Configuration)\;$(solutionDir)MotorOla\Dependencies\Ogre\Build\$(Platform)\lib\$(Configuration)\;$(solutionDir)MotorOla\Dependencies\Ogre\Build\SDL2-build\$(Configuration)\;$(solutionDir)MotorOla\Dependencies\FMOD\libreria\$(Platform);$(solutionDir)MotorOla\Dependencies\PhysX-4.1\Build\$(Platform)\lib\$(Configuration)\;$(solutionDir)MotorOla\Dependencies\PhysX-4.1\Src\physx\bin\win.x86_64.vc142.mt\$(Configuration)\;$(solutionDir)MotorOla\Dependencies\PhysX-4.1\Src\physx\snippets\graphics\lib\win64\glut;$(solutionDir)MotorOla\Dependencies\Lua\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MotorOlaProject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

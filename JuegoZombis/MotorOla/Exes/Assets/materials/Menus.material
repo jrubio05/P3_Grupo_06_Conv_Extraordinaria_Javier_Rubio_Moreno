@@ -1,0 +1,110 @@
+material MainMenuBG
+{
+	technique
+	{
+		pass
+		{
+			diffuse		0.5 0.5 0.5
+			ambient		1.0 1.0 1.0
+			specular	0.8 0.8 0.8 68
+			texture_unit
+			{
+				texture BackgroundMenu.jpg
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material EndMenuBG
+{
+	technique
+	{
+		pass
+		{
+			diffuse		0.5 0.5 0.5
+			ambient		1.0 1.0 1.0
+			specular	0.8 0.8 0.8 68
+			texture_unit
+			{
+				texture BackgroundEnd.jpg
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material OptionsMenuBG
+{
+	technique
+	{
+		pass
+		{
+			diffuse		0.5 0.5 0.5
+			ambient		1.0 1.0 1.0
+			specular	0.8 0.8 0.8 68
+			texture_unit
+			{
+				texture BackgroundOptions.jpg
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material LapidaButton
+{
+	technique
+	{
+		pass
+		{
+			diffuse		0.5 0.5 0.5
+			ambient		1.0 1.0 1.0
+			specular	0.8 0.8 0.8 68
+			scene_blend alpha_blend
+			texture_unit
+			{
+				texture Lapida.png
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material LapidaButtonP
+{
+	technique
+	{
+		pass
+		{
+			diffuse		0.5 0.5 0.5
+			ambient		1.0 1.0 1.0
+			specular	0.8 0.8 0.8 68
+			scene_blend alpha_blend
+			texture_unit
+			{
+				texture LapidaP.png
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material AltavozButton
+{
+	technique
+	{
+		pass
+		{
+			diffuse		0.5 0.5 0.5
+			ambient		1.0 1.0 1.0
+			specular	0.8 0.8 0.8 68
+			scene_blend alpha_blend
+			texture_unit
+			{
+				texture Altavoz.png
+				colour_op modulate
+			}
+		}
+	}
+}

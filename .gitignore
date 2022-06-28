@@ -1,0 +1,70 @@
+# #################### AUTO-GENERADO ####################
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# #################### JUEGO ####################
+
+# Directorios intermedios
+JuegoZombis/Temp
+JuegoZombis/MotorOla/Temp
+
+# Configuración de Visual Studio
+JuegoZombis/.vs
+JuegoZombis/MotorOla/.vs
+
+# Dependencias
+JuegoZombis/MotorOla/Dependencies/Lua/x64
+JuegoZombis/MotorOla/Dependencies/Ogre/Build
+JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Build
+
+# Ficheros
+# *.exe	# REDUNDANTE
+# *.dll	# REDUNDANTE
+# *.obj	# REDUNDANTE
+# *.lib	# REDUNDANTE
+*.exp
+*.pdb
+*.ilk
+*.log
+*.tlog
+*.ipdb
+*.iobj
+*.idb
+*.vcxproj.user
+*.recipe
+*.lastbuildstate
+*.vcxproj.FileListAbsolute.txt
+
+# Excepciones
+!JuegoZombis/MotorOla/Dependencies/**

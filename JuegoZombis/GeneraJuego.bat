@@ -6,7 +6,7 @@ call MotorOla.bat
 cd ..
 
 :: Generar .dll y .lib
-msbuild JuegoZombis_Solution.sln -p:Configuration=Release
+msbuild JuegoZombis_Solution.sln -p:Configuration=Release -noLogo -m
 
 :: Limpieza de cara a entrega
 cd MotorOla

@@ -1,9 +1,9 @@
 cd Exes
-del *.log
+::del *.log
 del *.lib
 del *.exp
 del *.pdb
 del *.ipdb
 del *.iobj
-del ogre.cfg
+::del ogre.cfg
 cd ..

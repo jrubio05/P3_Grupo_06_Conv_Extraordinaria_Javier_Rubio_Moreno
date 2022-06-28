@@ -74,7 +74,7 @@ cd ..\..\..\..\
 
 :: BUILD LUA
 cd Dependencies\Lua
-msbuild -p:Configuration=Release
+msbuild -p:Configuration=Release -noLogo -m
 
 cd x64\Release
 copy /Y Lua.dll "../../../../Exes/Lua.dll"
@@ -85,7 +85,7 @@ Echo __DEPENDENCIAS_CONSTRUIDAS__
 
 :::::::::: Compilar motor
 
-msbuild -p:Configuration=Release -noLogo
+msbuild -p:Configuration=Release -noLogo -m
 
 :: Mensaje
 Echo __COMPILADO__

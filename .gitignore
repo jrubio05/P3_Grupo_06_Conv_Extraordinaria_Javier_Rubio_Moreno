@@ -35,6 +35,9 @@
 
 # #################### JUEGO ####################
 
+# Excepciones
+!JuegoZombis/MotorOla/Dependencies/**
+
 # Directorios intermedios
 JuegoZombis/Temp
 JuegoZombis/MotorOla/Temp
@@ -49,10 +52,10 @@ JuegoZombis/MotorOla/Dependencies/Ogre/Build
 JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Build
 
 # Ficheros
-# *.exe	# REDUNDANTE
-# *.dll	# REDUNDANTE
-# *.obj	# REDUNDANTE
-# *.lib	# REDUNDANTE
+# *.exe
+# *.dll
+# *.obj
+# *.lib
 *.exp
 *.pdb
 *.ilk
@@ -65,11 +68,8 @@ JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Build
 *.recipe
 *.lastbuildstate
 *.vcxproj.FileListAbsolute.txt
-JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/bin/win.x86_64.vc142.md/release/PhysX_64.map
-JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/bin/win.x86_64.vc142.md/release/PhysXCommon_64.map
-JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/bin/win.x86_64.vc142.md/release/PhysXCooking_64.map
+
+# Ficheros generados
+JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/bin/win.x86_64.vc142.md/**
 JuegoZombis/MotorOla/Dependencies/PhysX-4.1/Src/physx/include/PxConfig.h
 JuegoZombis/MotorOla/Exes/ogre.cfg
-
-# Excepciones
-!JuegoZombis/MotorOla/Dependencies/**

@@ -2,6 +2,7 @@
 #include "Entidad.h"
 
 std::unique_ptr<EntidadManager> Singleton<EntidadManager>::instance_ = nullptr;
+
 void EntidadManager::update()
 {
 	for (int i = 0; i < _entitys.size(); i++)

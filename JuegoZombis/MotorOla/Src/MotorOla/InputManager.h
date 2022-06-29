@@ -30,18 +30,18 @@ public:
 
 	// clear the state
 	MOTOR_API inline void clearState() {
-		_isCloseWindoEvent = false;
+		_isCloseWindowEvent = false;
 		_isKeyDownEvent = false;
 		_isKeyUpEvent = false;
 		_isMouseButtonEvent = false;
 		_isMouseMotionEvent = false;
 	}
 
-
-
 	// update the state with a new event
 	MOTOR_API inline void update(const SDL_Event& event) {
 		switch (event.type) {
+		case SDL_QUIT:
+			break;
 		case SDL_KEYDOWN:
 			onKeyDown(event);
 			break;
@@ -76,7 +76,7 @@ public:
 
 	// close window event
 	MOTOR_API inline bool closeWindowEvent() {
-		return _isCloseWindoEvent;
+		return _isCloseWindowEvent;
 	}
 
 	// keyboard
@@ -123,8 +123,8 @@ public:
 
 	MOTOR_API inline std::pair<Sint32, Sint32> getMousePosInGame() {
 		std::pair<Sint32, Sint32>p;
-		p.first = _mousePos.first -(Singleton<OgreManager>::instance()->getWindowWidth() / 2);
-		p.second = _mousePos.second -(Singleton<OgreManager>::instance()->getWindowHeight() / 2);
+		p.first = _mousePos.first - (OgreManager::instance()->getWindowWidth() / 2);
+		p.second = _mousePos.second - (OgreManager::instance()->getWindowHeight() / 2);
 		return p;
 
 	}
@@ -170,14 +170,14 @@ private:
 	inline void handleWindowEvent(const SDL_Event& event) {
 		switch (event.window.event) {
 		case SDL_WINDOWEVENT_CLOSE:
-			_isCloseWindoEvent = true;
+			_isCloseWindowEvent = true;
 			break;
 		default:
 			break;
 		}
 	}
 
-	bool _isCloseWindoEvent;
+	bool _isCloseWindowEvent;
 	bool _isKeyUpEvent;
 	bool _isKeyDownEvent;
 	bool _isMouseMotionEvent;
@@ -185,8 +185,7 @@ private:
 	std::pair<Sint32, Sint32> _mousePos;
 	std::array<bool, 3> _mbState;
 	const Uint8* _kbState;
-}
-;
+};
 
 // This macro defines a compact way for using the singleton InputHandler, instead of
 // writing InputHandler::instance()->method() we write ih().method()

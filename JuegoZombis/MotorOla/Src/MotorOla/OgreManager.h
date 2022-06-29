@@ -35,7 +35,9 @@ struct NativeWindowPair
 	NativeWindowType* native = nullptr;
 };
 
-//class OgreManager : public Singleton<OgreManager>, Ogre::FrameListener {	// Creo que esto va a ser InputManager
+// Creo que esto va a ser InputManager
+//class OgreManager : public Singleton<OgreManager>, Ogre::FrameListener {
+
 MOTOR_API class OgreManager : public Singleton<OgreManager> {
 	friend Singleton<OgreManager>;
 public:

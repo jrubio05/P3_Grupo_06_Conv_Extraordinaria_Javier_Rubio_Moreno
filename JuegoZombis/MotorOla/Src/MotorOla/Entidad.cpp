@@ -72,7 +72,7 @@ void Entidad::OnTriggerEnter(Entidad* other)
 
 
 Componente* Entidad::addComponent(const std::string& compName, const std::map<std::string, std::string>& map) {
-	Componente* t = Singleton<ComponenteFactoria>::instance()->getComponent(compName);
+	Componente* t = ComponenteFactoria::instance()->getComponent(compName);
 	if (t != nullptr) {
 		t->_entity = this;//ponemos la entidad en el componente
 		std::unique_ptr<Componente> upt(t);
@@ -126,7 +126,7 @@ bool Entidad::init()
 
 Entidad* Entidad::instantiate(std::string name, Vectola3D position, Quaterniola rotation)
 {
-	std::string path = Singleton<LoadResources>::instance()->prefab(name);
+	std::string path = LoadResources::instance()->prefab(name);
 	Entidad* ent = readPrefab(path);
 	ent->getComponent<Transform>()->setPosition(position);
 	ent->getComponent<Transform>()->setRotation(rotation);

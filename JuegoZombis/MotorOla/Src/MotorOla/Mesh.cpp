@@ -8,17 +8,15 @@
 
 Mesh::Mesh()
 {
-	_sceneManager = Singleton<OgreManager>::instance()->getSceneManager();
+	_sceneManager = OgreManager::instance()->getSceneManager();
 	_nodo = _sceneManager->getRootSceneNode()->createChildSceneNode();
 }
 
 Mesh::~Mesh()
 {
-	Singleton<OgreManager>::instance()->getSceneManager()->destroyEntity(_ogreEntity);
-	Singleton<OgreManager>::instance()->getSceneManager()->destroySceneNode(_nodo);
+	OgreManager::instance()->getSceneManager()->destroyEntity(_ogreEntity);
+	OgreManager::instance()->getSceneManager()->destroySceneNode(_nodo);
 }
-
-
 
 bool Mesh::init(const std::map<std::string, std::string>& mapa)
 {	

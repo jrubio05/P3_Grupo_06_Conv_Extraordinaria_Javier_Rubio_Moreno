@@ -12,7 +12,7 @@ namespace ComponenteRegistro {
 	template<typename T> class ComponenteRegistro {
 	public:
 		ComponenteRegistro(std::string compName) {
-			Singleton<ComponenteFactoria>::instance()->registerGenerator(compName, []()
+			ComponenteFactoria::instance()->registerGenerator(compName, []()
 				{
 					return static_cast<Componente*>(new T());
 				}

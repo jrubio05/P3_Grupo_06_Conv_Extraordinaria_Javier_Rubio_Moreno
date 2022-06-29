@@ -17,7 +17,6 @@
 
 std::unique_ptr<OgreManager> Singleton<OgreManager>::instance_ = nullptr;
 
-
 OgreManager::OgreManager(const Ogre::String& appName)
 {
 	_appName = appName;

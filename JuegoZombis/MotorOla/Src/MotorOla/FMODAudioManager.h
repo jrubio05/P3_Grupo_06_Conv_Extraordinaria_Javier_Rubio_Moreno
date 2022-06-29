@@ -6,29 +6,34 @@
 #define MOTOR_API __declspec(dllimport)
 #endif
 
-#include "AudioManager.h"
+#include "./utils/Singleton.h"
+
 #include <fmod.hpp>
 #include <fmod_errors.h>
 #include <map>
 
-MOTOR_API class FMODAudioManager : public AudioManager {
+MOTOR_API class FMODAudioManager : public Singleton <FMODAudioManager> {
+	
+	friend Singleton<FMODAudioManager>;
+
 public:
 	FMODAudioManager();
-	~FMODAudioManager();
+	virtual ~FMODAudioManager();
 
 	// los booleanos devueltos por las funciones (salvo getMute()) indican si hubo error
 
-	MOTOR_API bool init() override;
-	MOTOR_API bool update() override;
+	MOTOR_API virtual bool init();
+	MOTOR_API virtual bool update();
 
-	MOTOR_API virtual bool loadMusic(int channel, const char* fileName)override;
-	MOTOR_API virtual bool playMusic(int channel, bool loops ) override;
-	MOTOR_API virtual bool stopMusic(int channel) override;
-	MOTOR_API virtual bool togglePause(int channel) override;
-	MOTOR_API virtual bool setVolume(int chan, int volume) override;
-	MOTOR_API virtual bool setPitch(int chan, int pitch) override;
-	MOTOR_API virtual void fadeIn(int chan) override;
-	MOTOR_API virtual void fadeOut(int chan)override;
+	MOTOR_API virtual bool loadMusic(int channel, const char* fileName);
+	MOTOR_API virtual bool playMusic(int channel, bool loops);
+	MOTOR_API virtual bool stopMusic(int channel);
+	MOTOR_API virtual bool togglePause(int channel);
+	MOTOR_API virtual bool setVolume(int chan, int volume);
+	MOTOR_API virtual bool setPitch(int chan, int pitch);
+	MOTOR_API virtual void fadeIn(int chan);
+	MOTOR_API virtual void fadeOut(int chan);
+	//
 	MOTOR_API bool checkError(FMOD_RESULT result) ;
 	MOTOR_API int getCont();
 	MOTOR_API bool getMute();

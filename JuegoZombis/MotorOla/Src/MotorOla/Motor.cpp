@@ -34,28 +34,30 @@
 #include <iostream>
 
 typedef HRESULT(CALLBACK* LPFNDLLFUNC1)(DWORD, UINT*);
-HINSTANCE hDLL;               // Handle to DLL
+HINSTANCE hDLL;	// Handle to DLL
 
-Motor::Motor()
-{
+Motor::Motor() {
 	// Inicia los managers
-	Singleton<LoadResources>::instance();
-	Singleton<OgreManager>::instance();	
-	Singleton<EntidadManager>::instance();
-	Singleton<FMODAudioManager>::instance();
-	Singleton<OverlayManager>::instance();
-	Singleton<PhysxManager>::instance();
+	LoadResources::instance();
+	OgreManager::instance();	
+	EntidadManager::instance();
+	FMODAudioManager::instance();
+	OverlayManager::instance();
+	PhysxManager::instance();
 	std::cout << "MANAGERS INSTANCIADOS CORRECTAMENTE\n";
 }
 
 Motor::~Motor()
 {
 	FreeLibrary(hDLL);
-	// Destruye los managers en orden inverso a la creaci�n (PC: puede que esto no sea necesario porque al cerrar se borran solos)
-	if (Singleton<FMODAudioManager>::instance() != nullptr) delete Singleton<FMODAudioManager>::instance();
-	if (Singleton<EntidadManager>::instance() != nullptr) delete Singleton<EntidadManager>::instance();
-	if (Singleton<LoadResources>::instance() != nullptr) delete Singleton<LoadResources>::instance();
-	//if (Singleton<PhysxManager>::instance() != nullptr) delete Singleton<PhysxManager>::instance();
+	// Destruye los managers en orden inverso a la creación
+	// (PC: puede que esto no sea necesario porque al cerrar se borran solos)
+	if (FMODAudioManager::instance() != nullptr) delete FMODAudioManager::instance();
+	if (EntidadManager::instance() != nullptr) delete EntidadManager::instance();
+	if (LoadResources::instance() != nullptr) delete LoadResources::instance();
+	///////////// ????????
+	/////////////if (PhysxManager::instance() != nullptr) delete PhysxManager::instance();
+	///////////// ????????
 }
 
 /*
@@ -63,13 +65,12 @@ Motor::~Motor()
 	Si hay algún problema, salta una excepción... creo, porque no devolvemos ni un booleano ni nada.
 	Quien haga init() de cada subsistema de verdad debe generar una excepción que luego se capture en algún sitio.
 */
-void Motor::initSystems()
-{
+void Motor::initSystems() {
 	// Inicia los sistemas
-	Singleton<LoadResources>::instance()->init();
-	Singleton<OgreManager>::instance()->init();
-	bool errorAudioMngr = Singleton<FMODAudioManager>::instance()->init();
-	Singleton<OverlayManager>::instance()->init(Singleton<OgreManager>::instance(),this);
+	LoadResources::instance()->init();
+	OgreManager::instance()->init();
+	bool errorAudioMngr = FMODAudioManager::instance()->init();
+	OverlayManager::instance()->init(OgreManager::instance(), this);
 	pm().init();
 
 	// Se registran los componentes que conoce el motor
@@ -87,8 +88,7 @@ void Motor::initSystems()
 	}
 }
 
-void Motor::registryComponents()
-{
+void Motor::registryComponents() {
 	// Apuntar aqui todos los componentes del motor (apuntar solo despues de refactorizar)
 	try {
 		ComponenteRegistro::ComponenteRegistro<Transform>("transform");
@@ -101,17 +101,13 @@ void Motor::registryComponents()
 	}
 }
 
-void Motor::mainLoop()
-{
-	std::cout << "------------------- COMIENZA EL BUCLE PRINCIPAL -------------------\n";
+void Motor::mainLoop() {
+	std::cout << "--------- COMIENZA EL BUCLE PRINCIPAL ---------\n";
 	//Actualiza el motor. Bucle input->update/fisicas->render
 	SDL_Event event;
-	std::cout << Singleton<EntidadManager>::instance() << "\n";
+	std::cout << EntidadManager::instance() << "\n";
 
 	while (!stop) {
-		
-		Singleton<EntidadManager>::instance()->refresh();
-
 		// Recoger el Input
 		ih().clearState();
 
@@ -127,23 +123,22 @@ void Motor::mainLoop()
 		// Actualizar las fisicas de las entidades
 		pm().runPhysX();
 
-		Singleton<EntidadManager>::instance()->refresh();
+		EntidadManager::instance()->refresh();
 
-		// Actualiza los transforms de las entitys despues de las fisicas
-		if (Singleton<OverlayManager>::instance() != nullptr) {
-			Singleton<OverlayManager>::instance()->update();
+		// Actualiza los transforms de las entities después de las físicas
+		if (OverlayManager::instance() != nullptr) {
+			OverlayManager::instance()->update();
 		}
 
-		// Actualiza el resto de componentes (tambien los del juego)
-		Singleton<EntidadManager>::instance()->update();
+		// Actualiza el resto de componentes (también los del juego)
+		EntidadManager::instance()->update();
 
 		// Renderiza las entidades
-		Singleton<OgreManager>::instance()->update();
+		OgreManager::instance()->update();
 	}
 }
 
-void Motor::loadDLLGame()
-{
+void Motor::loadDLLGame() {
 	HINSTANCE hDLL;
 	LPFNDLLFUNC1 lpfnDllFunc1;    // Function pointer
 	HRESULT hrReturnVal;
@@ -169,10 +164,10 @@ void Motor::loadDLLGame()
 bool Motor::loadScene(std::string name) {
 	try {
 		// Borra las entidades de la escena actual
-		Singleton<EntidadManager>::instance()->pauseEntidades();
+		EntidadManager::instance()->pauseEntidades();
 
 		// Devuelve la ruta de la escena
-		std::string sceneRoute = Singleton<LoadResources>::instance()->scene(name).c_str();
+		std::string sceneRoute = LoadResources::instance()->scene(name).c_str();
 
 		// Lee la escena cargando todas las entidades y sus componentes
 		readFile(sceneRoute);
@@ -185,13 +180,14 @@ bool Motor::loadScene(std::string name) {
 	}
 	return true;
 }
+
 bool Motor::loadMenu(std::string name,const char*get) {
 	try {
 		// Borra las entidades de la escena actual
-		Singleton<EntidadManager>::instance()->pauseEntidades();
+		EntidadManager::instance()->pauseEntidades();
 
 		// Devuelve la ruta de la escena
-		std::string sceneRoute = Singleton<LoadResources>::instance()->scene(name).c_str();
+		std::string sceneRoute = LoadResources::instance()->scene(name).c_str();
 
 		// Lee la escena cargando todas las entidades y sus componentes
 		readFileMenus(sceneRoute,get);
@@ -205,17 +201,14 @@ bool Motor::loadMenu(std::string name,const char*get) {
 	return true;
 }
 
-void Motor::loadTestMotorGame() 
-{
+void Motor::loadTestMotorGame() {
 	loadScene("TestScene.lua");
 }
 
-bool Motor::getStop()
-{
+bool Motor::getStop() {
 	return stop;
 }
 
-void Motor::setStop(bool s)
-{
+void Motor::setStop(bool s) {
 	stop = s;
 }

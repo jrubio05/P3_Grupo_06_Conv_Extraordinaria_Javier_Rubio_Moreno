@@ -8,7 +8,6 @@
 #define MOTOR_API __declspec(dllimport)
 #endif
 
-
 #ifndef _SINGLETON_
 #define _SINGLETON_
 #include <memory>
@@ -16,9 +15,8 @@
 #include <iostream>
 
 /*
- * This is an attempt to have a single Singleton class that can be used
- * via inheritance to make some other class Singleton. It is just to avoid
- * copying the Singleton declarations each time.
+ * This is an attempt to have a single Singleton class that can be used via inheritance to make some other class Singleton.
+ * It is just to avoid copying the Singleton declarations each time.
  *
  * >>> Requirements:
  *

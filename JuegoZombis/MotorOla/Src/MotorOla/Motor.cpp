@@ -58,6 +58,11 @@ Motor::~Motor()
 	//if (Singleton<PhysxManager>::instance() != nullptr) delete Singleton<PhysxManager>::instance();
 }
 
+/*
+	Inicializa los sistemas internos.
+	Si hay algún problema, salta una excepción... creo, porque no devolvemos ni un booleano ni nada.
+	Quien haga init() de cada subsistema de verdad debe generar una excepción que luego se capture en algún sitio.
+*/
 void Motor::initSystems()
 {
 	// Inicia los sistemas

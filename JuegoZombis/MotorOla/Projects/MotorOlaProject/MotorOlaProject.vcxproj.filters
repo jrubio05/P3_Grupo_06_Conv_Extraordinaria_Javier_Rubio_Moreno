@@ -55,7 +55,6 @@
     <ClCompile Include="..\..\Src\MotorOla\RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\MotorOla\Motor.cpp" />
     <ClCompile Include="..\..\Src\MotorOla\ContactReportCallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,6 +62,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\MotorOla\pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\MotorOla\Motor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -130,7 +132,6 @@
     <ClInclude Include="..\..\Src\MotorOla\utils\Quaterniola.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\MotorOla\Motor.h" />
     <ClInclude Include="..\..\Src\MotorOla\Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\MotorOla\utils\checkML.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\MotorOla\Motor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

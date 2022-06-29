@@ -63,14 +63,14 @@ void Motor::initSystems()
 	// Inicia los sistemas
 	Singleton<LoadResources>::instance()->init();
 	Singleton<OgreManager>::instance()->init();
-	Singleton<FMODAudioManager>::instance()->init();
+	bool errorAudioMngr = Singleton<FMODAudioManager>::instance()->init();
 	Singleton<OverlayManager>::instance()->init(Singleton<OgreManager>::instance(),this);
 	pm().init();
 
 	// Se registran los componentes que conoce el motor
 	registryComponents();
 
-	std::cout << "ANTES DE CARGAR JUEGO TRY\n";
+	std::cout << "CARGAR JUEGO...\n";
 
 	// El motor intenta cargar un juego, pero si hay algun error se arranca con la funcion loadTestMotorGame
 	try {
@@ -80,7 +80,6 @@ void Motor::initSystems()
 		std::cout << "Error: " << error << "\n";
 		loadTestMotorGame();
 	}
-	std::cout << "DESPUES DE CARGAR JUEGO TRY\n";
 }
 
 void Motor::registryComponents()

@@ -16,18 +16,20 @@ public:
 	FMODAudioManager();
 	~FMODAudioManager();
 
-	MOTOR_API void init() override;
-	MOTOR_API void update() override;
+	// los booleanos devueltos por las funciones (salvo getMute()) indican si hubo error
 
-	MOTOR_API virtual void loadMusic(int channel, const char* fileName)override;
-	MOTOR_API virtual void playMusic(int channel, bool loops ) override;
-	MOTOR_API virtual void stopMusic(int channel) override;
-	MOTOR_API virtual void togglePause(int channel) override;
-	MOTOR_API virtual void setVolume(int chan, int volume) override;
-	MOTOR_API virtual void setPitch(int chan, int pitch) override;
+	MOTOR_API bool init() override;
+	MOTOR_API bool update() override;
+
+	MOTOR_API virtual bool loadMusic(int channel, const char* fileName)override;
+	MOTOR_API virtual bool playMusic(int channel, bool loops ) override;
+	MOTOR_API virtual bool stopMusic(int channel) override;
+	MOTOR_API virtual bool togglePause(int channel) override;
+	MOTOR_API virtual bool setVolume(int chan, int volume) override;
+	MOTOR_API virtual bool setPitch(int chan, int pitch) override;
 	MOTOR_API virtual void fadeIn(int chan) override;
 	MOTOR_API virtual void fadeOut(int chan)override;
-	MOTOR_API void checkError(FMOD_RESULT result ) ;
+	MOTOR_API bool checkError(FMOD_RESULT result) ;
 	MOTOR_API int getCont();
 	MOTOR_API bool getMute();
 	MOTOR_API void setMute(bool m);

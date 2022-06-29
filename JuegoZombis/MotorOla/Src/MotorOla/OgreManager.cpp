@@ -23,25 +23,19 @@ OgreManager::OgreManager(const Ogre::String& appName) {
 	_root = nullptr;
 	_overlaySystem = nullptr;
 	_firstRun = true;
-}
 
-OgreManager::~OgreManager() {
-	close();
-	delete _fileSystemLayer;
-}
+	//--//--//--//--//--//--//
 
-void OgreManager::init() {
-    // Crea el root de Ogre
-    createRoot();
-	
-    // Inicia la ventana
-	if (oneTimeConfig()) {
+	// Crea el root de Ogre
+	createRoot();
+
+	// Inicia la ventana
+	if (oneTimeConfig())
 		setup();
-	}
 
 	// Agregado una prueba
 	_sceneManager = _root->createSceneManager();
-	
+
 	// Create the camera
 	cam = _sceneManager->createCamera("Cam");
 	cam->setNearClipDistance(1);
@@ -68,23 +62,23 @@ void OgreManager::init() {
 
 	// Luz ambiente en la escena
 	_sceneManager->setAmbientLight(Ogre::ColourValue(0.4f, 0.0f, 1.0f));
-	
+
 	_root->getSceneManager("SceneManagerInstance1")->addRenderQueueListener(_overlaySystem);
-	
-	std::cout << "OgreManager iniciado\n";
 }
 
-void OgreManager::update() {
-	// Renderiza el frame actual
-	_root->renderOneFrame();
-}
-
-void OgreManager::close() {
+OgreManager::~OgreManager() {
 	if (_root != nullptr)
 		_root->saveConfig();
 	shutdown();
 	delete _root;
 	_root = nullptr;
+	//
+	delete _fileSystemLayer;
+}
+
+void OgreManager::update() {
+	// Renderiza el frame actual
+	_root->renderOneFrame();
 }
 
 void OgreManager::createRoot() {
@@ -106,7 +100,7 @@ void OgreManager::createRoot() {
 }
 
 void OgreManager::shutdown() {
-	InputManager::instance()->refresh();
+	InputManager::instance()->refresh(); // ?????
 
 	// Borra la ventana
 	if (_window.render != nullptr) {

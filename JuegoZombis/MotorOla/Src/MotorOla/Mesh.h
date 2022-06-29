@@ -1,11 +1,11 @@
 #pragma once
+
 #include "Componente.h"
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 #include <OgreEntity.h>
 
-class Mesh : public Componente
-{
+class Mesh : public Componente {
 public:
 	Mesh();
 	virtual ~Mesh();
@@ -22,14 +22,10 @@ public:
 
 	void update();
 
-	/// <summary>
-	/// Devuelve si es o no visible la entidad
-	/// </summary>
+	// Devuelve si es o no visible la entidad
 	inline bool isVisible() { return _visible; };
 
-	/// <summary>
-	/// Hace visible a la entidad
-	/// </summary>
+	// Hace visible a la entidad
 	void setVisible(bool visible);
 
 private:
@@ -39,4 +35,3 @@ private:
 	Ogre::SceneNode* _nodo = nullptr;
 	Ogre::Entity* _ogreEntity = nullptr;
 };
-

@@ -9,10 +9,8 @@ public:
 	// Devuelve una instancia de la clase. La crea si no existe.
 	static GameManager* GetInstance();
 
-	/// <summary>
-	/// Inicializa la clase GameManager con los parametros dados si no se ha inicializado antes.
-	/// Devuelve true si se inicializa por primera vez y false si ya hab�a sido inicializada.
-	/// </summary>
+	// Inicializa la clase GameManager con los parametros dados si no se ha inicializado antes.
+	// Devuelve true si se inicializa por primera vez y false si ya había sido inicializada.
 	static bool Init();
 
 	// Inicia una nueva partida y pone el interfaz

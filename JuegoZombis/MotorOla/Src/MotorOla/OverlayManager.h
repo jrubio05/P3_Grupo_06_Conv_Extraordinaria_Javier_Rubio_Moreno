@@ -28,20 +28,22 @@
 #include <OgrePanelOverlayElement.h>
 #include <OgreOverlay.h>
 
-
 #include <vector>
+
 class Motor;
 class OgreManager;
+
 using CallBackOnClick = void(Motor* m);
 
 MOTOR_API class OverlayManager : public Singleton<OverlayManager> {
-	
+	friend Singleton<OverlayManager>;
+private:
+	OverlayManager(OgreManager* om_, Motor* m);
 public:
-	OverlayManager() {  };
 	virtual ~OverlayManager();
-	MOTOR_API void init(OgreManager* om_,Motor* m);
+	//
 	MOTOR_API void update();
-
+	//
 	MOTOR_API void creaBoton(float x,float y,const std::string& texto, const std::string& nombrePanel, const std::string& nombreTexto,float tamLetra,const std::string& material,float dimX,float dimY/*, CallBackOnClick* click_*/);
 	MOTOR_API void setCallBackToButton(std::string p, CallBackOnClick* click_);
 	MOTOR_API void creaTexto(float x, float y, const std::string& texto, const std::string& nombreTexto, float tamLetra,const std::string& nombrePanel,float dimX,float dimY);
@@ -61,19 +63,13 @@ public:
 	MOTOR_API void clear();
 	MOTOR_API Motor* getMotor();
 
-
 private:
-	
-
-	std::vector< Ogre::PanelOverlayElement*>botones;
-	std::vector< Ogre::PanelOverlayElement*>paneles;
-	std::vector< Ogre::PanelOverlayElement*>textos;
-	std::map < Ogre::PanelOverlayElement*, CallBackOnClick*>callbacks;
-	Ogre::Overlay* mOverlay=nullptr;
+	std::vector<Ogre::PanelOverlayElement*> botones;
+	std::vector<Ogre::PanelOverlayElement*> paneles;
+	std::vector<Ogre::PanelOverlayElement*> textos;
+	std::map<Ogre::PanelOverlayElement*, CallBackOnClick*> callbacks;
+	Ogre::Overlay* mOverlay;
 	
 	OgreManager* og;
 	Motor* motor;
-	
 };
-
-

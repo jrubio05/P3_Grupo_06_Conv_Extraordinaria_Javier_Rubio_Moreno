@@ -6,6 +6,16 @@
 
 std::unique_ptr<OverlayManager> Singleton<OverlayManager>::instance_ = nullptr;
 
+OverlayManager::OverlayManager(OgreManager* om, Motor* m) : mOverlay(nullptr) {
+	Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
+	mOverlay = 0;
+
+	mOverlay = overlayManager.create("PanelOverlay");
+	mOverlay->setZOrder(100);
+	og = om;
+	motor = m;
+}
+
 OverlayManager::~OverlayManager() {
 	Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
 	overlayManager.destroy("PanelOverlay");
@@ -14,16 +24,6 @@ OverlayManager::~OverlayManager() {
 	textos.clear();
 	callbacks.clear();
 	overlayManager.destroyAllOverlayElements();
-}
-
-void OverlayManager::init(OgreManager*om,Motor* m) {
-	Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
-	mOverlay = 0;
-		
-	mOverlay = overlayManager.create("PanelOverlay");
-	mOverlay->setZOrder(100);
-	og = om;
-	motor = m;	
 }
 
 void OverlayManager::update() {

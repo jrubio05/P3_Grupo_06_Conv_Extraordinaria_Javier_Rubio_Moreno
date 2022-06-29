@@ -11,8 +11,11 @@ RigidBody::RigidBody() {
 }
 
 RigidBody::~RigidBody() {
+	/*
+	Aquí salta excepción si se cierra el juego durante la escena de los zombis
+	*/
 	if (body)
-		body->release();
+		body->release(); 
 	if (stBody)
 		stBody->release();
 }

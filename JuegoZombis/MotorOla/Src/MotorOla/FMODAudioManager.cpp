@@ -2,23 +2,20 @@
 
 std::unique_ptr<FMODAudioManager> Singleton<FMODAudioManager>::instance_ = nullptr;
 
-FMODAudioManager::FMODAudioManager() {
+FMODAudioManager::FMODAudioManager() : initErr(false) {
+	result = System_Create(&system);
+	if (!checkError(result)) {
+		result = system->init(128, FMOD_INIT_NORMAL, 0);
+		initErr = checkError(result);
+	}
+	else {
+		initErr = true;
+	}
 }
 
 FMODAudioManager::~FMODAudioManager() {
 	result = system->release();
-	///checkError(result);
-}
-
-bool FMODAudioManager::init() {
-	result = System_Create(&system);
-	if (!checkError(result)) {
-		result = system->init(128, FMOD_INIT_NORMAL, 0);
-		return checkError(result);
-	}
-	else {
-		return true;
-	}
+	/////checkError(result);
 }
 
 bool FMODAudioManager::update() {

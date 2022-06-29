@@ -115,7 +115,7 @@ void readFile(std::string file) {
 		cy = stof(temp, &sa);
 		cz = stof(camPos.substr(sz + sa + 2));
 		camNode->setPosition(cx, cy, cz);
-		////////////////camNode->setPosition(0, -800, 1200);////////_test_caidas_forma_javi_////////
+		////////////////camNode->setPosition(0, -800, 1200);//_test_caidas_forma_javi_
 		lua_pop(l, 1);
 
 		lua_getfield(l, -1, "camRotation");

@@ -5,19 +5,12 @@
 #define JUEGO_API __declspec(dllimport)
 #endif
 
-/// <summary>
-/// Aquí se registran los componentes únicos de cada juego que por tanto no conoce el motor
-/// </summary>
+// Aquí se registran los componentes únicos de cada juego que por tanto no conoce el motor
 void RegistryGameComponents();
 
-/// <summary>
-/// Carga la musica de fondo del juego
-/// </summary>
+// Carga la musica de fondo del juego
 void loadMusic();
 
-/// <summary>
-/// FUNCIÓN PRINCIPAL PARA CARGAR EL JUEGO, LOS JUEGOS NECESITARÁN ESTA FUNCION OBLIGATORIAMENTE PARA QUE EL MOTOR PUEDA LLAMAR A LA LIBRERÍA DINÁMICA
-/// </summary>
+// FUNCIÓN PRINCIPAL PARA CARGAR EL JUEGO
+//LOS JUEGOS NECESITARÁN ESTA FUNCION OBLIGATORIAMENTE PARA QUE EL MOTOR PUEDA LLAMAR A LA LIBRERÍA DINÁMICA
 extern "C" JUEGO_API int LoadGame();
-
-

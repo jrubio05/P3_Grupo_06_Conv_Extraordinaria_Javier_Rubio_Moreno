@@ -17,16 +17,15 @@
 // SDLUtils as well.
 
 MOTOR_API class InputManager : public Singleton<InputManager> {
-
 	friend Singleton<InputManager>;
-
+private:
+	InputManager();
 public:
+	virtual ~InputManager();
+	//
 	MOTOR_API enum MOUSEBUTTON : uint8_t {
 		LEFT = 0, MIDDLE = 1, RIGHT = 2
 	};
-
-	virtual ~InputManager() {
-	}
 
 	// clear the state
 	MOTOR_API inline void clearState() {
@@ -68,7 +67,6 @@ public:
 	// refresh
 	MOTOR_API inline void refresh() {
 		SDL_Event event;
-
 		clearState();
 		while (SDL_PollEvent(&event))
 			update(event);
@@ -126,15 +124,9 @@ public:
 		p.first = _mousePos.first - (OgreManager::instance()->getWindowWidth() / 2);
 		p.second = _mousePos.second - (OgreManager::instance()->getWindowHeight() / 2);
 		return p;
-
 	}
 
 private:
-	InputManager() {
-		_kbState = SDL_GetKeyboardState(0);
-		clearState();
-	}
-
 	inline void onKeyDown(const SDL_Event&) {
 		_isKeyDownEvent = true;
 	}
@@ -147,7 +139,6 @@ private:
 		_isMouseMotionEvent = true;
 		_mousePos.first = event.motion.x;
 		_mousePos.second = event.motion.y;
-
 	}
 
 	inline void onMouseButtonChange(const SDL_Event& event, bool isDown) {

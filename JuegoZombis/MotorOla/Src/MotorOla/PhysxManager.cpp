@@ -13,50 +13,14 @@
 
 std::unique_ptr<PhysxManager> Singleton<PhysxManager>::instance_ = nullptr;
 
-PhysxManager::PhysxManager() : _patata(false) {
+PhysxManager::PhysxManager() {
 	PX_UNUSED(true);
-	
 	// General settings
-	scale.length = 100;        // typical length of an object
-	scale.speed = 9.81;         // typical speed of an object, gravity*1s is a reasonable choice
-}
+	scale.length = 100;	// typical length of an object
+	scale.speed = 9.81;	// typical speed of an object, gravity*1s is a reasonable choice
 
-PhysxManager::~PhysxManager() {
-	std::cout << "\n - Cerrando PhysXmanager - \n";
-	close(false);
-	std::cout << " - - - - - - - - - - - - - \n";
-}
+	//--------////--------////--------//
 
-// -------------- TIMER ----------------------------------------------------------------
-
-void PhysxManager::StartCounter() {
-	LARGE_INTEGER li;
-	if (!QueryPerformanceFrequency(&li))
-		return;
-
-	PCFreq = double(li.QuadPart);
-
-	QueryPerformanceCounter(&li);
-	CounterStart = li.QuadPart;
-	CounterLast = CounterStart;
-}
-
-double PhysxManager::GetCounter() {
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	double t = double(li.QuadPart - CounterLast) / PCFreq;
-	CounterLast = li.QuadPart;
-	return t;
-}
-
-double PhysxManager::GetLastTime() {
-	double t = double(CounterLast - CounterStart) / PCFreq;
-	return t;
-}
-
-// ------------ MAIN SINGLETON -------------------------------------------------------
-
-void PhysxManager::init() {
 	// Foundation --------------------------------------------------------------------
 	mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mAllocator, mErrorCallback);
 	if (!mFoundation)
@@ -101,7 +65,7 @@ void PhysxManager::init() {
 
 	// Scene for GPU Rigid Bodies ----------------------------------------------------
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-	
+
 	sceneDesc.gravity = PxVec3(0.0f, 0.0f, 0.0f);
 
 	mDispatcher = PxDefaultCpuDispatcherCreate(4);					//Create a CPU dispatcher using 4 worther threads
@@ -109,7 +73,7 @@ void PhysxManager::init() {
 
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &mContactReportCallback;	//Create a system callback to manage collisions
-			
+
 	sceneDesc.cudaContextManager = mCuda;							//Set the CUDA context manager, used by GRB.
 
 	sceneDesc.flags |= PxSceneFlag::eENABLE_GPU_DYNAMICS;			//Enable GPU dynamics - without this enabled, simulation (contact gen and solver) will run on the CPU.
@@ -133,6 +97,58 @@ void PhysxManager::init() {
 	mMaterial = mPhysics->createMaterial(0.0f, 0.0f, 0.0f);
 	StartCounter();
 }
+
+PhysxManager::~PhysxManager() {
+	std::cout << "\n - Cerrando PhysXmanager - \n";
+	/**/
+	// Function to clean data; Add custom code to the begining of the function ^^^
+	PX_UNUSED(false); // boolean -> is game rendering?
+	//
+	if (mScene != NULL) PX_RELEASE(mScene);
+	PX_RELEASE(mDispatcher);
+	PxCloseExtensions();
+	PX_RELEASE(mPhysics);
+	//
+	if (mPvd) {
+		PxPvdTransport* transport = mPvd->getTransport();
+		PX_RELEASE(mPvd);
+		PX_RELEASE(transport);
+	}
+	//
+	PX_RELEASE(mCuda);
+	PX_RELEASE(mFoundation);
+	/**/
+	std::cout << " - - - - - - - - - - - - - \n";
+}
+
+// -------------- TIMER ----------------------------------------------------------------
+
+void PhysxManager::StartCounter() {
+	LARGE_INTEGER li;
+	if (!QueryPerformanceFrequency(&li))
+		return;
+
+	PCFreq = double(li.QuadPart);
+
+	QueryPerformanceCounter(&li);
+	CounterStart = li.QuadPart;
+	CounterLast = CounterStart;
+}
+
+double PhysxManager::GetCounter() {
+	LARGE_INTEGER li;
+	QueryPerformanceCounter(&li);
+	double t = double(li.QuadPart - CounterLast) / PCFreq;
+	CounterLast = li.QuadPart;
+	return t;
+}
+
+double PhysxManager::GetLastTime() {
+	double t = double(CounterLast - CounterStart) / PCFreq;
+	return t;
+}
+
+// ------------ MAIN SINGLETON ------------
 
 // interactive = game is rendering
 // t = time passed since last call in ms
@@ -164,27 +180,6 @@ void PhysxManager::update(bool interactive, double t) {
 	}
 }
 
-// Function to clean data
-// Add custom code to the begining of the function
-// interactive = game is rendering
-void PhysxManager::close(bool interactive) {
-	PX_UNUSED(interactive);
-
-	if (mScene != NULL) PX_RELEASE(mScene);
-	PX_RELEASE(mDispatcher);
-	PxCloseExtensions();
-	PX_RELEASE(mPhysics);
-
-	if (mPvd) {
-		PxPvdTransport* transport = mPvd->getTransport();
-		PX_RELEASE(mPvd);
-		PX_RELEASE(transport);
-	}
-
-	PX_RELEASE(mCuda);
-	PX_RELEASE(mFoundation);
-}
-
 // ---------------- UTILS --------------------------------------------------
 
 // Function to configure what happens in each step of physics
@@ -192,16 +187,13 @@ void PhysxManager::close(bool interactive) {
 // t: time passed since last call in milliseconds
 void PhysxManager::stepPhysics(bool interactive, double frameTime) {
 	PX_UNUSED(interactive);
-
 	mScene->simulate(frameTime);
 	mScene->fetchResults(true);
 }
 
-
 void PhysxManager::onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
-	
 	Entidad* a = findEntityByPxActor(actor1);
 	Entidad* b = findEntityByPxActor(actor2);
 	if (a != b) {
@@ -213,7 +205,6 @@ void PhysxManager::onCollision(physx::PxActor* actor1, physx::PxActor* actor2) {
 void PhysxManager::onTrigger(physx::PxActor* actor1, physx::PxActor* actor2) {
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
-
 	Entidad* a = findEntityByPxActor(actor1);
 	Entidad* b = findEntityByPxActor(actor2);
 	if (a != b) {

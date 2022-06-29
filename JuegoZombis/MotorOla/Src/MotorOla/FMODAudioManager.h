@@ -12,27 +12,27 @@
 #include <fmod_errors.h>
 #include <map>
 
-MOTOR_API class FMODAudioManager : public Singleton <FMODAudioManager> {
-	
+MOTOR_API class FMODAudioManager : public Singleton<FMODAudioManager> {
 	friend Singleton<FMODAudioManager>;
-
-public:
+private:
+	// constructor
 	FMODAudioManager();
+public:
+	// destructor
 	virtual ~FMODAudioManager();
-
+	// ¿error al crear e inicializar mediante Singleton?
+	bool initErr;
 	// los booleanos devueltos por las funciones (salvo getMute()) indican si hubo error
-
-	MOTOR_API virtual bool init();
-	MOTOR_API virtual bool update();
-
-	MOTOR_API virtual bool loadMusic(int channel, const char* fileName);
-	MOTOR_API virtual bool playMusic(int channel, bool loops);
-	MOTOR_API virtual bool stopMusic(int channel);
-	MOTOR_API virtual bool togglePause(int channel);
-	MOTOR_API virtual bool setVolume(int chan, int volume);
-	MOTOR_API virtual bool setPitch(int chan, int pitch);
-	MOTOR_API virtual void fadeIn(int chan);
-	MOTOR_API virtual void fadeOut(int chan);
+	MOTOR_API bool update();
+	//
+	MOTOR_API bool loadMusic(int channel, const char* fileName);
+	MOTOR_API bool playMusic(int channel, bool loops);
+	MOTOR_API bool stopMusic(int channel);
+	MOTOR_API bool togglePause(int channel);
+	MOTOR_API bool setVolume(int chan, int volume);
+	MOTOR_API bool setPitch(int chan, int pitch);
+	MOTOR_API void fadeIn(int chan);
+	MOTOR_API void fadeOut(int chan);
 	//
 	MOTOR_API bool checkError(FMOD_RESULT result) ;
 	MOTOR_API int getCont();

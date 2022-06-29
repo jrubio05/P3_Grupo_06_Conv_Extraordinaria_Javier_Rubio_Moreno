@@ -29,8 +29,7 @@ namespace Ogre {
 
 typedef SDL_Window NativeWindowType;
 
-struct NativeWindowPair
-{
+struct NativeWindowPair {
 	Ogre::RenderWindow* render = nullptr;
 	NativeWindowType* native = nullptr;
 };
@@ -40,17 +39,15 @@ struct NativeWindowPair
 
 MOTOR_API class OgreManager : public Singleton<OgreManager> {
 	friend Singleton<OgreManager>;
-public:
-	/// <summary>
-	/// Inicia los parámetros de la clase
-	/// </summary>
-	/// <param name="appName"> Nombre que aparecerá en la ventana (el del juego) </param>
+private:
+	// Inicia los parámetros de la clase: el nombre que aparecerá en la ventana
 	OgreManager(const Ogre::String& appName = "MotorOla");
+public:
+	// Destructor de la clase
+	virtual ~OgreManager();
 
-	/// <summary>
-	/// Destructor de la clase
-	/// </summary>
-	~OgreManager();
+	//
+	MOTOR_API void update();
 
 	// Getters
 	MOTOR_API Ogre::Camera* getCam() const { return cam; };
@@ -63,10 +60,6 @@ public:
 	MOTOR_API int getWindowWidth() const { return _window.render->getWidth(); }
 	MOTOR_API int getWindowHeight() const { return _window.render->getHeight(); }
 
-	MOTOR_API void init();
-	MOTOR_API void update();
-	MOTOR_API void close();
-
 	// callback interface copied from various listeners to be used by ApplicationContext
 	
 	MOTOR_API virtual void windowMoved(Ogre::RenderWindow* rw) {}
@@ -76,7 +69,6 @@ public:
 	MOTOR_API virtual void windowFocusChange(Ogre::RenderWindow* rw) {}
 
 	// Funciones
-
 	MOTOR_API void setup();
 	MOTOR_API void createRoot();
 	MOTOR_API bool oneTimeConfig();
@@ -84,8 +76,6 @@ public:
 	MOTOR_API void locateResources();
 	MOTOR_API void loadResources();
 	MOTOR_API void shutdown();
-
-	
 
 	MOTOR_API virtual NativeWindowPair createWindow(const Ogre::String& name);
 private:
@@ -101,6 +91,4 @@ private:
 	bool _firstRun;
 	Ogre::String _appName = "MotorOla";
 	Ogre::String _solutionPath;
-
 };
-

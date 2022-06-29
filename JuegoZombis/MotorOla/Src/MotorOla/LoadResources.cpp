@@ -2,51 +2,39 @@
 
 std::unique_ptr<LoadResources> Singleton<LoadResources>::instance_ = nullptr;
 
-LoadResources::LoadResources()
-{
+LoadResources::LoadResources(std::string assetDirPath) : assetDir(assetDirPath) {
+	search(assetDir);
 }
 
-LoadResources::~LoadResources()
-{
+LoadResources::~LoadResources() {
 }
 
-void LoadResources::init()
-{
-	search(ASSETS);
-}
-
-string LoadResources::mes(string m)
-{
+string LoadResources::mes(string m) {
 	auto it = mesh.find(m);
 	return it->second;
 }
 
-string LoadResources::aud(string name)
-{
+string LoadResources::aud(string name) {
 	auto s = audio.find(name);
 	return s->second;
 }
 
-string LoadResources::tex(string tex)
-{
+string LoadResources::tex(string tex) {
 	auto t = textures.find(tex);
 	return t->second;
 }
 
-string LoadResources::scene(string scene)
-{
+string LoadResources::scene(string scene) {
 	auto it = scenes.find(scene);
 	return it->second;
 }
 
-string LoadResources::prefab(string prefab)
-{
+string LoadResources::prefab(string prefab) {
 	auto it = prefabs.find(prefab);
 	return it->second;
 }
 
-void LoadResources::search(path p)
-{
+void LoadResources::search(path p) {
 	// Recorre los directorios cargando los archivos en los diferentes map
 	for (const auto& it : directory_iterator(p)) {
 		std::cout << "\n";
@@ -58,11 +46,9 @@ void LoadResources::search(path p)
 			search(it.path());
 		}
 	}
-	
 }
 
-void LoadResources::load(path p, size_t end, size_t pathLenght)
-{
+void LoadResources::load(path p, size_t end, size_t pathLenght) {
 	//Cargan los assets cada uno en el map que le corresponde 
 	//Añadir si hay otro tipo de assets
 	string extension = p.string().substr(end);

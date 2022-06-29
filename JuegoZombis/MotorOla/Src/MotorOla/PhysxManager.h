@@ -30,6 +30,8 @@ MOTOR_API inline std::ostream& operator<<(std::ostream& os, const physx::PxQuat&
 
 MOTOR_API class PhysxManager : public Singleton<PhysxManager> {
 	friend Singleton<PhysxManager>;
+private:
+	PhysxManager();
 public:	
 	~PhysxManager();
 
@@ -46,9 +48,7 @@ public:
 	MOTOR_API void releaseBody(PxActor& body);
 
 	// MAIN SINGLETON
-	MOTOR_API void init();
 	MOTOR_API void update(bool interactive, double t);
-	MOTOR_API void close(bool interactive);
 
 	// utils
 	MOTOR_API void stepPhysics(bool interactive, double t);
@@ -101,9 +101,6 @@ public:
 	MOTOR_API void setPhysxToGlobalTR(Entidad& e, PxRigidActor& body);
 
 private:
-	PhysxManager(/*...*/);
-	PhysxManager(bool n) { _patata = n; };
-
 	PxRigidDynamic* testBALL = nullptr;
 
 	// ON/OFF physics
@@ -115,9 +112,6 @@ private:
 	__int64 CounterStart = 0;
 	__int64 CounterLast = 0;
 	__int64 GlobalTimer = 0;
-
-	// Variables editables
-	bool _patata;
 
 	PxTolerancesScale scale;
 	PxCudaContextManagerDesc cudaDesc;

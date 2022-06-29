@@ -2,6 +2,12 @@
 
 std::unique_ptr<ComponenteFactoria> Singleton<ComponenteFactoria>::instance_ = nullptr;
 
+ComponenteFactoria::ComponenteFactoria() {
+}
+
+ComponenteFactoria::~ComponenteFactoria() {
+}
+
 Componente* ComponenteFactoria::getComponent(std::string name) {
 	auto it = _mGenerators.find(name);
 	if (it != _mGenerators.end())

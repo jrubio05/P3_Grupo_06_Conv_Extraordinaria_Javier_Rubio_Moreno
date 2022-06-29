@@ -11,9 +11,7 @@
 
 class EntidadManager;
 
-class Entidad
-{
-	using uptr_cmp = std::unique_ptr<Componente>;
+class Entidad {
 public:
 	Entidad();
 	Entidad(std::string entityName, int id);
@@ -28,27 +26,19 @@ public:
 	MOTOR_API void OnCollisionEnter(Entidad* other);
 	MOTOR_API void OnTriggerEnter(Entidad* other);
 
-	
-
 	MOTOR_API inline EntidadManager* getEntityMngr() const { return _entManager; }
 
 	MOTOR_API inline void setEntityMngr(EntidadManager* mngr) { _entManager = mngr; }
 
 	MOTOR_API inline int getID() { return _id; }
 
-
 	template<typename T>
 	bool hasComponent() {
 		return getComponent<T>() != nullptr;
 	}
 
-	/// <summary>
-/// Devuelve un componente de la entidad, o nullptr si no lo tiene. Coste: O(N) :(
-/// </summary>
-/// <typeparam name="T"></typeparam>
-/// <returns></returns>
-	template<typename T>
-	T* getComponent() {
+	// Devuelve un componente de la entidad, o nullptr si no lo tiene. Coste: O(N) :(
+	template<typename T> T* getComponent() {
 		T* ret = nullptr;
 		int i = 0;
 		while (i < components.size() && ret == nullptr) {
@@ -57,7 +47,6 @@ public:
 		}
 		return ret;
 	}
-
 
 	Componente* addComponent(const std::string& compName, const std::map<std::string, std::string>& map);
 
@@ -68,7 +57,8 @@ public:
 
 	MOTOR_API bool init();
 
-	MOTOR_API static Entidad* instantiate(std::string name, Vectola3D position = Vectola3D(), Quaterniola rotation = Quaterniola());
+	MOTOR_API static Entidad* instantiate(std::string name, Vectola3D position = Vectola3D(),
+		Quaterniola rotation = Quaterniola());
 
 private:
 	std::string _name;
@@ -76,9 +66,8 @@ private:
 
 	EntidadManager* _entManager;
 
-	std::vector<uptr_cmp> components;
+	std::vector<std::unique_ptr<Componente>> components;
 	bool active = true;
-
 
 	// Aqui estaran los componentes de esta entidad
 	std::vector<std::map<std::string, std::string>> compMaps;

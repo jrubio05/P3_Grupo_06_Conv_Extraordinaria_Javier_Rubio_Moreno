@@ -6,7 +6,6 @@
 #endif
 #include "utils/Vectola3D.h"
 
-
 class Quaterniola {
 public:
 	float s;
@@ -21,23 +20,15 @@ public:
 	// Destructor
 	MOTOR_API ~Quaterniola() {};
 
-	/// <summary>
-	/// Convierte el vector dado a Quaternion
-	/// </summary>
-	/// <param name="vector"> Vector a convertir </param>
-	/// <returns></returns>
+	// Convierte el vector dado a Quaternion
 	MOTOR_API static Quaterniola Euler(Vectola3D vector);
 
 	MOTOR_API static Quaterniola Lerp(Quaterniola a, Quaterniola b, float t);
 
 	MOTOR_API Quaterniola Slerp(Quaterniola a, Quaterniola b, float t, float threshold);
 
-	/// <summary>
-	/// Devuelve el angulo entre dos Quaterniones
-	/// </summary>
-	/// <returns></returns>
+	// Devuelve el angulo entre dos Quaterniones
 	MOTOR_API static float Angle(Quaterniola& a, Quaterniola& b);
-
 
 	MOTOR_API float magnitude();
 	MOTOR_API Quaterniola normalize();
@@ -46,15 +37,8 @@ public:
 	// La inversa, pero normalizada, es un metodo un poco redundante pues solo se 
 	// tendria que usar si se han puesto los Quaterniones a mano y no mediante Euler()
 	MOTOR_API Quaterniola inverse();
-	/// <summary>
-	/// Convierte el Quaternion en angulos de Euler.
-	/// </summary>
-	/// <returns></returns>
+	// Convierte el Quaternion en angulos de Euler.
 	MOTOR_API Vectola3D toEuler();
-	/// <summary>
-	///	Convierte el Quaternion en un vector unitario que apunta en su direccion.
-	/// </summary>
-	/// <returns></returns>
 
 	MOTOR_API float dotProduct(const Quaterniola& q);
 
@@ -67,7 +51,7 @@ public:
 	MOTOR_API Quaterniola operator*(const Quaterniola& quat) const;
 	MOTOR_API void operator*=(const float value);
 	MOTOR_API Quaterniola operator*(const float value) const;
-	MOTOR_API void operator*=(const Vectola3D value);
+	///MOTOR_API void operator*=(const Vectola3D value);
 	MOTOR_API Vectola3D operator*(const Vectola3D value) const;
 	MOTOR_API bool operator==(const Quaterniola& quat) const;
 

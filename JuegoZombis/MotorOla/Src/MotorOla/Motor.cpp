@@ -37,45 +37,43 @@ typedef HRESULT(CALLBACK* LPFNDLLFUNC1)(DWORD, UINT*);
 HINSTANCE hDLL;	// Handle to DLL
 
 Motor::Motor() {
-	// Inicia los managers
-	LoadResources::instance();
-	OgreManager::instance();	
-	EntidadManager::instance();
-	FMODAudioManager::instance();
-	OverlayManager::instance();
-	PhysxManager::instance();
-	std::cout << "MANAGERS INSTANCIADOS CORRECTAMENTE\n";
 }
 
 Motor::~Motor() {
 	FreeLibrary(hDLL);
 	// Destruye los managers en orden inverso a la creación
-	// (PC: puede que esto no sea necesario porque al cerrar se borran solos)
-	if (FMODAudioManager::instance() != nullptr) delete FMODAudioManager::instance();
-	if (EntidadManager::instance() != nullptr) delete EntidadManager::instance();
-	if (LoadResources::instance() != nullptr) delete LoadResources::instance();
-	///////////// ????????
-	/////////////if (PhysxManager::instance() != nullptr) delete PhysxManager::instance();
-	///////////// ????????
+	ComponenteFactoria::close();
+	PhysxManager::close();
+	OverlayManager::close();
+	FMODAudioManager::close();
+	EntidadManager::close();
+	OgreManager::close();
+	// CUIDADO: OgreManager espera que InputManager exista en OgreManager::shutdown() (no comprendo por qué)
+	InputManager::close();	// CUIDADO: Ogre ----> Input
+	LoadResources::close();
+	std::cout << "MANAGERS ELIMINADOS\n";
 }
 
-/*
-	Inicializa los sistemas internos.
-	Si hay algún problema, salta una excepción... creo, porque no devolvemos ni un booleano ni nada.
-	Quien haga init() de cada subsistema de verdad debe generar una excepción que luego se capture en algún sitio.
-*/
+// Inicia los sistemas internos
 void Motor::initSystems() {
-	// Inicia los sistemas
-	LoadResources::instance()->init();
-	OgreManager::instance()->init();
-	bool errorAudioMngr = FMODAudioManager::instance()->init();
-	OverlayManager::instance()->init(OgreManager::instance(), this);
-	PhysxManager::instance()->init();
+	// Inicia los managers
+	LoadResources::init("./Assets");
+	InputManager::init();  // CUIDADO: Input ----> Ogre
+	OgreManager::init("Motor De UCMGDVP32022G6");
+	EntidadManager::init();
+	FMODAudioManager::init();
+	/* Esto se me hace muy raro.
+	Aparte de que esta línea registra si ha habido un fallo al inicializar el manager de FMOD, y de que no...
+	... empleo el resultado, el caso es que si no invoco FMODAudioManager::instance(), falla la compilación del...
+	... juego y aparece un error de enlazado. ----v */
+	errorAudioMngr = FMODAudioManager::instance()->initErr;
+	OverlayManager::init(OgreManager::instance(), this);
+	PhysxManager::init();
+	ComponenteFactoria::init();
+	std::cout << "MANAGERS CREADOS E INICIALIZADOS\n";
 
 	// Se registran los componentes que conoce el motor
-	registryComponents();
-
-	std::cout << "CARGAR JUEGO...\n";
+	registryComponents(); // CUIDADO
 
 	// El motor intenta cargar un juego, pero si hay algun error se arranca con la funcion loadTestMotorGame
 	try {
@@ -85,11 +83,12 @@ void Motor::initSystems() {
 		std::cout << "Error: " << error << "\n";
 		loadTestMotorGame();
 	}
+	std::cout << "CARGADO EL JUEGO...\n";
 }
 
 void Motor::registryComponents() {
 	// Apuntar aqui todos los componentes del motor (apuntar solo despues de refactorizar)
-	try {
+	try { // CUIDADO QUE EL ComponenteFactoria ES SINGLETON Y DEBE EXISTIR A ESTAS ALTURAS
 		ComponenteRegistro::ComponenteRegistro<Transform>("transform");
 		ComponenteRegistro::ComponenteRegistro<Mesh>("mesh");
 		ComponenteRegistro::ComponenteRegistro<Collider>("collider");

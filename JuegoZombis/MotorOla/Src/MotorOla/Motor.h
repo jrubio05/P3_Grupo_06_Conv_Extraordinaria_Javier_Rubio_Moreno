@@ -26,52 +26,35 @@ class OverlayManager;
 MOTOR_API class Motor
 {
 private:
-
 	bool stop = false;
-
 	int channel = 0;
-
-	// Contador auxiliar
-	int frame = 0;
-
+	int frame = 0; // Contador auxiliar
 	Entidad* cuboTest = nullptr;
+	// errores al inicializar gestores
+	bool errorAudioMngr = false;
 
 public:
 	MOTOR_API Motor();
 	MOTOR_API ~Motor();
-
 	MOTOR_API void initSystems();
 
-	/// <summary>
-	/// Añadir aqui todos los componentes que se hagan
-	/// </summary>
+	// Añadir aqui todos los componentes que se hagan
 	void registryComponents();
 
-	/// <summary>
-	/// Bucle principal de la ejecucion del motor
-	/// </summary>
+	// Bucle principal de la ejecucion del motor
 	MOTOR_API void mainLoop();
 
-	/// <summary>
-	/// Carga Juego.dll y llama a la funcion LoadGame()
-	/// </summary>
+	// Carga Juego.dll y llama a la funcion LoadGame()
 	void loadDLLGame();
 
-	/// <summary>
-	/// Carga una escena del juego
-	/// </summary>
-	/// <param name="name">name es el archivo "scene.lua"</param>
+	// Carga una escena del juego (name es el archivo "scene.lua")
 	MOTOR_API bool loadScene(std::string name);
 	MOTOR_API bool loadMenu(std::string name,const char* get);
 
-	/// <summary>
-	/// Funcion para hacer pruebas dentro del motor
-	/// </summary>
+	// Función para hacer pruebas dentro del motor
 	void loadTestMotorGame();
 
-
-
-	// Getters and Setters
+	// Getters y Setters
 	MOTOR_API void setStop(bool s);
 	bool getStop();
 };

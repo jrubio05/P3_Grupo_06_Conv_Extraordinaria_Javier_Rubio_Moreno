@@ -75,9 +75,6 @@
     <ClInclude Include="..\..\Src\MotorOla\utils\Singleton.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\MotorOla\AudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\MotorOla\Componente.h">
       <Filter>Header Files</Filter>
     </ClInclude>

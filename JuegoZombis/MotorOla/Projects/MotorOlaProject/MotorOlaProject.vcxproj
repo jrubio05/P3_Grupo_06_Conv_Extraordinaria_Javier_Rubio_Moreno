@@ -42,7 +42,6 @@
     <ClCompile Include="..\..\Src\MotorOla\utils\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\MotorOla\AudioManager.h" />
     <ClInclude Include="..\..\Src\MotorOla\AudioSource.h" />
     <ClInclude Include="..\..\Src\MotorOla\ContactReportCallback.h" />
     <ClInclude Include="..\..\Src\MotorOla\Collider.h" />

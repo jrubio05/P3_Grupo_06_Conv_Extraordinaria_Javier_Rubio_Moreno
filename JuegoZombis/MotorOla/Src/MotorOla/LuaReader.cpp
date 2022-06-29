@@ -12,8 +12,7 @@
 #include <stdio.h>
 #include "PhysxManager.h"
 
-extern "C"
-{
+extern "C" {
     #include "lua.h"
     #include "lauxlib.h"
     #include "lualib.h"
@@ -84,7 +83,7 @@ void readFile(std::string file) {
 		std::string aux3 = lua_tostring(l, -1);
 		sz = 0, sa = 0;
 		a = std::stof(aux3, &sz); b = std::stof(aux3.substr(sz + 1), &sa); c = std::stof(aux3.substr(sz + sa + 2));
-		pm().getScene()->setGravity(PxVec3(a, b, c));
+		PhysxManager::instance()->getScene()->setGravity(PxVec3(a, b, c));
 
 		lua_pop(l, 1);
 
@@ -210,16 +209,12 @@ void readFile(std::string file) {
 	}
 }
 
-void readFileMenus(std::string file,const char* get)
-{
-
+void readFileMenus(std::string file,const char* get) {
 	// Preparamos un LuaState para leer el fichero
 	lua_State* l;
 	l = luaL_newstate();
 	openlualibs(l);
 
-
-	
 	if (!luaL_loadfile(l, file.c_str()) && lua_pcall(l, 0, 0, 0)) {
 		std::cout << lua_tostring(l, -1) << "\n";
 		std::cout << "Error reading .lua\n";
@@ -319,12 +314,10 @@ void readFileMenus(std::string file,const char* get)
 }
 
 // In Lua 5.0 reference manual is a table traversal example at page 29.
-void PrintTable(lua_State* L)
-{
+void PrintTable(lua_State* L) {
 	lua_pushnil(L);
 
-	while (lua_next(L, -2) != 0)
-	{
+	while (lua_next(L, -2) != 0) {
 		if (lua_isstring(L, -1))
 			printf("%s = %s\n", lua_tostring(L, -2), lua_tostring(L, -1));
 		else if (lua_isnumber(L, -1))
@@ -336,14 +329,12 @@ void PrintTable(lua_State* L)
 	}
 }
 
-void readFileTest(std::string file)
-{
+void readFileTest(std::string file) {
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
 	// Load file.
-	if (luaL_loadfile(L, file.c_str()) || lua_pcall(L, 0, 0, 0))
-	{
+	if (luaL_loadfile(L, file.c_str()) || lua_pcall(L, 0, 0, 0)) {
 		printf("Cannot run file\n");
 		return;
 	}
@@ -430,4 +421,3 @@ Entidad* readPrefab(std::string file) {
 		throw std::exception("Prefab file has incorrect formatting");
 	}
 }
-

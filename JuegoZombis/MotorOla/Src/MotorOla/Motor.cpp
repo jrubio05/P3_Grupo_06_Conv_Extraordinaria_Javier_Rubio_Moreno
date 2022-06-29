@@ -47,8 +47,7 @@ Motor::Motor() {
 	std::cout << "MANAGERS INSTANCIADOS CORRECTAMENTE\n";
 }
 
-Motor::~Motor()
-{
+Motor::~Motor() {
 	FreeLibrary(hDLL);
 	// Destruye los managers en orden inverso a la creación
 	// (PC: puede que esto no sea necesario porque al cerrar se borran solos)
@@ -71,7 +70,7 @@ void Motor::initSystems() {
 	OgreManager::instance()->init();
 	bool errorAudioMngr = FMODAudioManager::instance()->init();
 	OverlayManager::instance()->init(OgreManager::instance(), this);
-	pm().init();
+	PhysxManager::instance()->init();
 
 	// Se registran los componentes que conoce el motor
 	registryComponents();
@@ -109,19 +108,19 @@ void Motor::mainLoop() {
 
 	while (!stop) {
 		// Recoger el Input
-		ih().clearState();
+		InputManager::instance()->clearState();
 
 		while (SDL_PollEvent(&event))
-			ih().update(event);
+			InputManager::instance()->update(event);
 
 		// Cierra la aplicacion con ESCAPE
-		if (ih().isKeyDown(SDL_SCANCODE_ESCAPE)) {
+		if (InputManager::instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
 			stop = true;
 			continue;
 		}
 
 		// Actualizar las fisicas de las entidades
-		pm().runPhysX();
+		PhysxManager::instance()->runPhysX();
 
 		EntidadManager::instance()->refresh();
 
@@ -149,16 +148,16 @@ void Motor::loadDLLGame() {
 	hDLL = LoadLibrary(L".\\Juego_d");	// typedef const wchar_t* LPCWSTR, L"..." para indicar que se trata de un long char
 #endif
 
-	if (NULL != hDLL)
-	{
+	if (NULL != hDLL) {
 		lpfnDllFunc1 = (LPFNDLLFUNC1)GetProcAddress(hDLL, "LoadGame");
 		if (NULL != lpfnDllFunc1)
-		{
 			lpfnDllFunc1(NULL, NULL);
-		}
-		else throw "Function LoadGame not found in DLL";
+		else
+			throw "Function LoadGame not found in DLL";
 	}
-	else throw "DLL not found";
+	else {
+		throw "DLL not found";
+	}
 }
 
 bool Motor::loadScene(std::string name) {

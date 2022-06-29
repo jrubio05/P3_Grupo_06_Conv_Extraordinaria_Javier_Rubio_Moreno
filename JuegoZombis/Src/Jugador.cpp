@@ -13,9 +13,7 @@
 const clock_t TIME_TO_ANOTHER_ZOMBIE_CONTACT = 2000;
 const clock_t REPRODUCT_SOUND = 700;
 
-Jugador::Jugador() : 
-	transform_(nullptr), speed_(), v()
-{
+Jugador::Jugador() : transform_(nullptr), speed_(), v() {
 }
 
 bool Jugador::init(const std::map<std::string, std::string>& mapa) {
@@ -31,48 +29,49 @@ bool Jugador::init(const std::map<std::string, std::string>& mapa) {
 };
 
 void Jugador::update() {
-
 	Vectola3D aux = _entity->getComponent<Transform>()->getPosition();
-
 	if (_active) {
 		v.setY(0);
 		// Arriba - Abajo
-		if (ih().isKeyDown(SDL_SCANCODE_W)) {
+		if (InputManager::instance()->isKeyDown(SDL_SCANCODE_W)) {
 			v.setZ(-1);
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
-				Singleton<FMODAudioManager>::instance()->playMusic(4, false);
+				FMODAudioManager::instance()->playMusic(4, false);
 			}
 		}
-		else if (ih().isKeyDown(SDL_SCANCODE_S)) {
+		else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_S)) {
 			v.setZ(1);
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
-				Singleton<FMODAudioManager>::instance()->playMusic(4, false);
+				FMODAudioManager::instance()->playMusic(4, false);
 			}
 		}
-		else if (ih().isKeyUp(SDL_SCANCODE_W) || ih().isKeyUp(SDL_SCANCODE_S)) {
+		else if (InputManager::instance()->isKeyUp(SDL_SCANCODE_W)
+			|| InputManager::instance()->isKeyUp(SDL_SCANCODE_S))
+		{
 			v.setZ(0);
 		}
 
 		// Izquierda - Derecha
-		if (ih().isKeyDown(SDL_SCANCODE_A)) {
+		if (InputManager::instance()->isKeyDown(SDL_SCANCODE_A)) {
 			v.setX(-1);
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
-				Singleton<FMODAudioManager>::instance()->playMusic(4, false);
+				FMODAudioManager::instance()->playMusic(4, false);
 			}
 		}
-		else if (ih().isKeyDown(SDL_SCANCODE_D)) {
+		else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_D)) {
 			v.setX(1);
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
-				Singleton<FMODAudioManager>::instance()->playMusic(4, false);
+				FMODAudioManager::instance()->playMusic(4, false);
 			}
 		}
-		else if (ih().isKeyUp(SDL_SCANCODE_A) || ih().isKeyUp(SDL_SCANCODE_D)) {
+		else if (InputManager::instance()->isKeyUp(SDL_SCANCODE_A)
+			|| InputManager::instance()->isKeyUp(SDL_SCANCODE_D))
+		{
 			v.setX(0);
-
 		}
 
 		Vectola3D mov = v.normalize() * speed_;
@@ -85,11 +84,10 @@ void Jugador::update() {
 	}
 }
 
-void Jugador::onCollisionStart(Entidad* other)
-{
+void Jugador::onCollisionStart(Entidad* other) {
 	if (other->getName() == "Zombie" && clock() > lastZombieContact + TIME_TO_ANOTHER_ZOMBIE_CONTACT) {
 		// Pierde una vida
-		GameManager::GetInstance()->removeLives(1);
+		GameManager::GetInstance()->addLives(-1);
 
 		// Pone un tiempo para evitar que pierda varias vidas de un solo golpe
 		lastZombieContact = clock();

@@ -6,9 +6,8 @@
 #endif
 
 physx::PxFilterFlags contactReportFilterShader(physx::PxFilterObjectAttributes attributes0, physx::PxFilterData filterData0,
-	physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
-	physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize)
-{
+		physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
+		physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize) {
 	PX_UNUSED(attributes0);
 	PX_UNUSED(attributes1);
 	PX_UNUSED(filterData0);
@@ -24,13 +23,12 @@ physx::PxFilterFlags contactReportFilterShader(physx::PxFilterObjectAttributes a
 	return physx::PxFilterFlag::eDEFAULT;
 }
 
-void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs)
-{
+void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHeader,
+	const physx::PxContactPair* pairs, physx::PxU32 nbPairs) {
 #if _DEBUG
 	if (debugCom) printf("onContact: %d pairs\n", nbPairs);
 
-	while (nbPairs--)
-	{
+	while (nbPairs--) {
 		const PxContactPair& current = *pairs++;
 
 		// The reported pairs can be trigger pairs or not. We only enabled contact reports for
@@ -52,17 +50,15 @@ void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHead
 
 	physx::PxActor* actor1 = pairHeader.actors[0];
 	physx::PxActor* actor2 = pairHeader.actors[1];
-	pm().onCollision(actor1, actor2);
+	PhysxManager::instance()->onCollision(actor1, actor2);
 }
 
-void ContactReportCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
-{
+void ContactReportCallback::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 #if _DEBUG
 	if (debugCom) printf("onTrigger: %d trigger pairs\n", count);
 #endif
 	
-	while (count--)
-	{
+	while (count--) {
 		const PxTriggerPair& current = *pairs++;
 #if _DEBUG
 		if (current.status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
@@ -73,6 +69,6 @@ void ContactReportCallback::onTrigger(PxTriggerPair* pairs, PxU32 count)
 
 		physx::PxActor* actor1 = current.otherActor;
 		physx::PxActor* actor2 = current.triggerActor;
-		pm().onTrigger(actor1, actor2);
+		PhysxManager::instance()->onTrigger(actor1, actor2);
 	}
 }

@@ -132,8 +132,6 @@ Vectola3D Quaterniola::toEuler() {
 	return vec * 180 / M_PI;
 }
 
-
-
 float Quaterniola::dotProduct(const Quaterniola& q)
 {
 	return(v.getX() * q.v.getX()) + (v.getY() * q.v.getY()) + (v.getZ() * q.v.getZ()) + (s * q.s);

@@ -10,11 +10,9 @@ LookatMouse::LookatMouse() : test(false)/*, tr_(nullptr)*/ {
 }
 
 LookatMouse::~LookatMouse() {
-
 }
 
-bool LookatMouse::init(const std::map<std::string, std::string>& mapa)
-{	
+bool LookatMouse::init(const std::map<std::string, std::string>& mapa) {	
 	if (mapa.find("test") == mapa.end())
 		return false;
 
@@ -27,25 +25,21 @@ bool LookatMouse::init(const std::map<std::string, std::string>& mapa)
 	return true;
 }
 
-
-void LookatMouse::debugMousePos()
-{
+void LookatMouse::debugMousePos() {
 	//if (im != nullptr) {
 	//	std::cout << im->getMousePos().first << ", " << im->getMousePos().second; //creo que esta cogiendo algo vacio
 	//}
 	//else {
 	//	std::cout << "INPUT MANAGER POINTER NULL IN LOOKATMOUSE";
 	//}
-	//std::cout << Singleton<InputManager>::instance()->getMousePos().first << ", " << Singleton<InputManager>::instance()->getMousePos().second << "\n";
+	//std::cout << InputManager::instance()->getMousePos().first << ", " << InputManager::instance()->getMousePos().second << "\n";
 }
 
-void LookatMouse::rotateToMouse2D()
-{
-	MP = Singleton<InputManager>::instance()->getMousePosInGame();
+void LookatMouse::rotateToMouse2D() {
+	MP = InputManager::instance()->getMousePosInGame();
 
 	float angle = atan2(MP.second - tr_->getPosition().getY(), MP.first - tr_->getPosition().getX());
 
-	
 	angle *= -180 / M_PI;
 	angle -= 90;
 
@@ -54,18 +48,14 @@ void LookatMouse::rotateToMouse2D()
 	Vectola3D v(0, angle, 0) ;
 	Quaterniola x = Quaterniola::Euler(v);
 
-
 	_entity->getComponent<Transform>()->setRotation(x);
 }
 
-void LookatMouse::update()
-{
-	if (_entity->hasComponent<Transform>())
-	{
+void LookatMouse::update() {
+	if (_entity->hasComponent<Transform>()) {
 		//debugMousePos();
 		rotateToMouse2D();
 	}
-
 }
 
 //Quaterniola LookatMouse::eulerToQuat(int yaw, int pitch, int roll)

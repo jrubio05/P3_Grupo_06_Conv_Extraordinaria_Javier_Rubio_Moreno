@@ -7,20 +7,18 @@
 #include <time.h>
 #include "FMODAudioManager.h"
 
-bool SpawnZombis::init(const std::map<std::string, std::string>& mapa)
-{
+bool SpawnZombis::init(const std::map<std::string, std::string>& mapa) {
 	return true;
 }
 
-void SpawnZombis::update()
-{
+void SpawnZombis::update() {
 	clock_t auxc = clock();
-	if(auxc > lastZombie + TIME_TO_SPAWN){
+	if(auxc > lastZombie + TIME_TO_SPAWN) {
 
 		lastZombie = auxc;
 
 		Entidad* zombie = Entidad::instantiate("Zombie.prefab");
-		Singleton<FMODAudioManager>::instance()->playMusic(5, false);
+		FMODAudioManager::instance()->playMusic(5, false);
 
 		// Los zombis se generan en las 4 esquinas de manera aleatoria
 		int x = POS_ZOMBIS_X;
@@ -39,6 +37,8 @@ void SpawnZombis::update()
 			z += mz;
 		}
 
-		zombie->getComponent<Transform>()->setPosition(zombie->getComponent<Transform>()->getPosition() + Vectola3D(x, 0, z));
+		zombie->getComponent<Transform>()->setPosition(
+			zombie->getComponent<Transform>()->getPosition() + Vectola3D(x, 0, z)
+		);
 	}
 }

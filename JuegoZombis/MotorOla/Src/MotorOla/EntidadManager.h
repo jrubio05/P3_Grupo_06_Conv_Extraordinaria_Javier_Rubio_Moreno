@@ -29,20 +29,14 @@ public:
 	MOTOR_API void draw();
 	MOTOR_API void refresh();
 	MOTOR_API void pauseEntidades();
-	MOTOR_API void reanudeEntidades();
+	MOTOR_API void resumeEntidades();
 	MOTOR_API void sincronizaVectorEnt();
 	
 	MOTOR_API std::vector<uptr_ent>& getAllEntidades() {
-		return _entitys;
+		return _entities;
 	}
 	MOTOR_API Entidad* getEntidadByID(int id);
 
 private:
-	std::vector<uptr_ent> _entitys;
+	std::vector<uptr_ent> _entities;
 };
-
-// Esta macro define una forma compacta para usar el Singleton EntidadManager, 
-// en lugar de escribir 'EntidadManager::instance()->method()' escribiremos 'em().method()'
-inline EntidadManager& em() {
-	return *EntidadManager::instance();
-}

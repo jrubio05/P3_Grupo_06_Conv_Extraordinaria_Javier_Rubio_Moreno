@@ -6,16 +6,13 @@
 #include <time.h>
 #include "FMODAudioManager.h"
 
-Shoot::Shoot() : shootTime(), cont(), lastBullet()
-{
+Shoot::Shoot() : shootTime(), cont(), lastBullet() {
 }
 
-Shoot::~Shoot()
-{
+Shoot::~Shoot() {
 }
 
-bool Shoot::init(const std::map<std::string, std::string>& mapa)
-{
+bool Shoot::init(const std::map<std::string, std::string>& mapa) {
     if (mapa.find("shootTime") == mapa.end()) return false;
     std::string::size_type sz = 0, sa = 0;
     std::string shootTimeString = mapa.at("shootTime");
@@ -25,15 +22,12 @@ bool Shoot::init(const std::map<std::string, std::string>& mapa)
     return true;
 }
 
-void Shoot::update()
-{
+void Shoot::update() {
     clock_t auxc = clock();
-
     // Primero compueba que haya pasado el tiempo necesario para disparar una bala
     if (auxc > lastBullet + shootTime) {
-
         // Luego si está pulsado el boton izquierdo del ratón se dispara
-        if (ih().getMouseButtonState(ih().LEFT)) {
+        if (InputManager::instance()->getMouseButtonState(InputManager::instance()->LEFT)) {
             // Actualiza el tiempo
             lastBullet = auxc;
 
@@ -42,7 +36,7 @@ void Shoot::update()
             pos.setY(0);
 
             Entidad* bala = Entidad::instantiate("Bala.prefab", pos);
-            Singleton<FMODAudioManager>::instance()->playMusic(2, false);
+            FMODAudioManager::instance()->playMusic(2, false);
         }
     }
 }

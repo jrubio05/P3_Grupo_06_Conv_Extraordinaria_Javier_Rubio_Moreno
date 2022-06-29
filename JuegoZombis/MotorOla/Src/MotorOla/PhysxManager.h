@@ -146,14 +146,3 @@ private:
 	std::vector<int> _ids;
 	std::vector<int> ids_erase;
 };
-
-// Esta macro define una forma compacta para usar el Singleton PhysxManager, 
-// en lugar de escribir 'PhysxManager::instance()->method()' escribiremos 'im().method()'
-inline PhysxManager& pm() {
-	return *PhysxManager::instance();
-}
-
-// Forma breve de acceder al creador y padre todopoderoso de las fisicas
-inline PxPhysics* physX() {
-	return PhysxManager::instance()->getPhysX();
-}

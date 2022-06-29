@@ -6,9 +6,7 @@ class GameManager {
 public:
 	~GameManager() {}
 
-	/// <summary>
-	/// Devuelve una instancia de la clase. La crea si no existe.
-	/// </summary>
+	// Devuelve una instancia de la clase. La crea si no existe.
 	static GameManager* GetInstance();
 
 	/// <summary>
@@ -17,9 +15,7 @@ public:
 	/// </summary>
 	static bool Init();
 
-	/// <summary>
-	/// Inicia una nueva partida y pone el interfaz
-	/// </summary>
+	// Inicia una nueva partida y pone el interfaz
 	void initGame();
 
 	// Funciones de puntos
@@ -34,11 +30,8 @@ public:
 	int getLives();
 	void setLives(int totalLives);
 	void addLives(int livesToAdd);
-	void removeLives(int livesToRemove);
 
-	/// <summary>
-	/// Manda borrar las entidades de la escena al acabar la partida
-	/// </summary>
+	// Manda borrar las entidades de la escena al acabar la partida
 	void endGame();
 
 protected:

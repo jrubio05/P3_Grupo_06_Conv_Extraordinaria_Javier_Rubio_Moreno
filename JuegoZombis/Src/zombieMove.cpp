@@ -7,16 +7,13 @@
 #include "EntidadManager.h"
 #include "GameManager.h"
 
-ZombieMove::ZombieMove()
-{
+ZombieMove::ZombieMove() {
 }
 
-ZombieMove::~ZombieMove()
-{
+ZombieMove::~ZombieMove() {
 }
 
-bool ZombieMove::init(const std::map<std::string, std::string>& mapa)
-{
+bool ZombieMove::init(const std::map<std::string, std::string>& mapa) {
 	if (mapa.find("speed") == mapa.end())
 		return false;
 
@@ -37,10 +34,9 @@ void ZombieMove::onCollisionStart(Entidad* other) {
 	}
 }
 
-void ZombieMove::update()
-{
+void ZombieMove::update() {
 	// Busca la entidad del jugador
-	if (!_player) _player = Singleton<EntidadManager>::instance()->getEntidadByID(0);
+	if (!_player) _player = EntidadManager::instance()->getEntidadByID(0);
 
 	Vectola3D aux = _entity->getComponent<Transform>()->getPosition();
 

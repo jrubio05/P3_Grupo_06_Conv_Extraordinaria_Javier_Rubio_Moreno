@@ -6,29 +6,24 @@
 	const bool debugCom = false;
 #endif
 
-Collider::Collider()
-{
-	
+Collider::Collider() {	
 }
 
-Collider::~Collider()
-{
+Collider::~Collider() {
 }
 
-bool Collider::init(const std::map<std::string, std::string>& mapa)
-{
+bool Collider::init(const std::map<std::string, std::string>& mapa) {
 	// comprobar que la sección existe
 	if (mapa.find("type") == mapa.end())
 		return false;
 
 	// variables principales
 	PxGeometry* geometry = nullptr;
-	PxMaterial* material = pm().getMaterial();	// Establece el tipo de material
+	PxMaterial* material = PhysxManager::instance()->getMaterial();	// Establece el tipo de material
 
 	// identifica el tipo de geometría
 	std::string typeString = mapa.at("type");
 	
-
 	if (typeString == "sphere") {
 		// comprobar que la sección existe
 		if (mapa.find("radius") == mapa.end())
@@ -72,18 +67,16 @@ bool Collider::init(const std::map<std::string, std::string>& mapa)
 		geometry = new PxBoxGeometry(PxVec3(dimX, dimY, dimZ)); /// ¿escala?
 	}
 	
-
 	// Localiza el parametro que indica si el collider es tipo 'trigger'
-	if (mapa.find("trigger") != mapa.end()) 
-	{
+	if (mapa.find("trigger") != mapa.end()) {
 		// Establece el tipo de simulacion fisica
 		std::string triggerString = mapa.at("trigger");
 		if (triggerString == "true")
-			shape = pm().createTriggerShape(*geometry, *material, false);
+			shape = PhysxManager::instance()->createTriggerShape(*geometry, *material, false);
 	}
 	// Si no se ha definido dicho parametro o es 'false'
-	if (shape == nullptr) {
-		shape = pm().createShape(*geometry, *material, false); // NO TRIGGER, NO POO
+	if (!shape) {
+		shape = PhysxManager::instance()->createShape(*geometry, *material, false); // NO TRIGGER, NO POO
 	}
 
 	// Recoge si existe el componente RigidBody

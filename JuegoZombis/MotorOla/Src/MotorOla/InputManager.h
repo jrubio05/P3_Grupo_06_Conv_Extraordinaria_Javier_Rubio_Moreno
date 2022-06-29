@@ -186,11 +186,3 @@ private:
 	std::array<bool, 3> _mbState;
 	const Uint8* _kbState;
 };
-
-// This macro defines a compact way for using the singleton InputHandler, instead of
-// writing InputHandler::instance()->method() we write ih().method()
-//
-MOTOR_API inline InputManager& ih() {
-	return *InputManager::instance();
-}
-

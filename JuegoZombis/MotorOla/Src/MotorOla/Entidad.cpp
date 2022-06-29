@@ -8,23 +8,16 @@
 #include "Mesh.h"
 #include "ComponenteFactoria.h"
 
-
-Entidad::Entidad():
-	_entManager(nullptr),
-	active(true)
-{
+Entidad::Entidad(): _entManager(nullptr), active(true) {
 }
 
-Entidad::Entidad(std::string entityName, int id) :
-	_entManager(nullptr), active(true), _name(entityName), _id(id)
-{
+Entidad::Entidad(std::string entityName, int id) : _entManager(nullptr), active(true),
+	_name(entityName), _id(id) {
 }
 
-Entidad::~Entidad()
-{
+Entidad::~Entidad() {
 	int n = components.size();
-	for (int i = 0; i < n; i++)
-	{
+	for (int i = 0; i < n; i++) {
 		if (components.at(i) != nullptr) {
 			components.at(i).reset();
 			components.at(i) = nullptr;
@@ -32,42 +25,31 @@ Entidad::~Entidad()
 	}
 }
 
-void Entidad::update()
-{
+void Entidad::update() {
 	for (auto& c : components)
-	{
 		c->update();
-	}
 }
 
-bool Entidad::isActive() const
-{
+bool Entidad::isActive() const {
 	return active;
 }
 
-void Entidad::destroy()
-{
+void Entidad::destroy() {
 	active = false;
 }
 
-void Entidad::OnCollisionEnter(Entidad* other)
-{
-	if (this!=nullptr && other!=nullptr) {
+void Entidad::OnCollisionEnter(Entidad* other) {
+	if (this!=nullptr && other!=nullptr)
 		for (auto& c : components)
-		{
-			if (c.get()->_entity->isActive() && other->isActive()) c->onCollisionStart(other);
-		}
-	}
+			if (c.get()->_entity->isActive() && other->isActive())
+				c->onCollisionStart(other);
 }
 
-void Entidad::OnTriggerEnter(Entidad* other)
-{
-	if (this != nullptr && other != nullptr) {
+void Entidad::OnTriggerEnter(Entidad* other) {
+	if (this != nullptr && other != nullptr)
 		for (auto& c : components)
-		{
-			if (c.get()->_entity->isActive() && other->isActive()) c->onTriggerStart(other);
-		}
-	}
+			if (c.get()->_entity->isActive() && other->isActive())
+				c->onTriggerStart(other);
 }
 
 
@@ -79,20 +61,17 @@ Componente* Entidad::addComponent(const std::string& compName, const std::map<st
 		components.push_back(std::move(upt));
 		compMaps.push_back(map);
 		compinits.push_back(false);
-
 		return t;
 	}
 	throw std::exception("Error de carga del componente ");
 }
 
-inline void Entidad::setActive(bool state)
-{
+inline void Entidad::setActive(bool state) {
 	active = state;
 	if (hasComponent<Mesh>()) getComponent<Mesh>()->setVisible(state);
 }
 
-bool Entidad::init()
-{
+bool Entidad::init() {
 	_numTriesToLoad = components.size() * 100000;
 	int i = 0;
 	j = 0;
@@ -124,14 +103,13 @@ bool Entidad::init()
 	return true;
 }
 
-Entidad* Entidad::instantiate(std::string name, Vectola3D position, Quaterniola rotation)
-{
+Entidad* Entidad::instantiate(std::string name, Vectola3D position, Quaterniola rotation) {
 	std::string path = LoadResources::instance()->prefab(name);
 	Entidad* ent = readPrefab(path);
 	ent->getComponent<Transform>()->setPosition(position);
 	ent->getComponent<Transform>()->setRotation(rotation);
 	if (ent->getComponent<RigidBody>() != nullptr) {
-		pm().setGlobalToPhysxTR(*ent, *ent->getComponent<RigidBody>()->getBody());
+		PhysxManager::instance()->setGlobalToPhysxTR(*ent, *ent->getComponent<RigidBody>()->getBody());
 	}
 
 	return ent;

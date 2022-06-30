@@ -1,12 +1,12 @@
 #pragma once
+
 #include "ECS.h"
 #include <map>
 #include <string>
 
 class Entidad;
 
-class Componente
-{
+class Componente {
 	friend Entidad;
 
 public:
@@ -15,8 +15,6 @@ public:
 
 	virtual void start() {};
 	virtual void update() {};
-
-	
 
 	//Para triggers
 	virtual void onTriggerStart(Entidad* other) {};

@@ -146,7 +146,7 @@ void readFile(std::string file) {
 			int id = lua_tonumber(l, -1);
 			lua_pop(l, 1);
 
-			Entidad* ent = EntidadManager::instance()->addEntidad(name, id);
+			Entidad* ent = EntidadManager::instance()->addEntity(name, id);
 			ents.push_back(ent);
 			entInits.push_back(false);
 
@@ -383,7 +383,7 @@ Entidad* readPrefab(std::string file) {
 		int cursor = lua_tonumber(l, -1);
 		lua_pop(l, 1);
 		
-		Entidad* ent = EntidadManager::instance()->addEntidad(name, id);
+		Entidad* ent = EntidadManager::instance()->addEntity(name, id);
 
 		// Components
 		// Calls a similar while loop, creating a set<string, string> with each pair

@@ -9,7 +9,7 @@ EntidadManager::EntidadManager() {
 EntidadManager::~EntidadManager() {
 }
 
-Entidad* EntidadManager::addEntidad() {
+Entidad* EntidadManager::addEntity() {
 	Entidad* e = new Entidad();
 	e->setEntityMngr(this);
 	std::unique_ptr<Entidad> uPtr(e);
@@ -17,7 +17,7 @@ Entidad* EntidadManager::addEntidad() {
 	return e;
 }
 
-Entidad* EntidadManager::addEntidad(std::string entityName, int id) {
+Entidad* EntidadManager::addEntity(std::string entityName, int id) {
 	Entidad* e = new Entidad(entityName, id);
 	e->setEntityMngr(this);
 	std::unique_ptr<Entidad> uPtr(e);
@@ -43,25 +43,16 @@ void EntidadManager::refresh() {
 	), _entities.end());
 }
 
-void EntidadManager::pauseEntidades() {
+void EntidadManager::markAllEntitiesForDeletion() {
 	for (auto& e : _entities)
 		e->setActive(false);
 }
 
-void EntidadManager::resumeEntidades() {
-	for (auto& e : _entities)
-		e->setActive(false);
-}
-
-void EntidadManager::sincronizaVectorEnt() {
-	_entities.resize(_entities.size());
-}
-
-MOTOR_API std::vector<std::unique_ptr<Entidad>>& EntidadManager::getAllEntidades() {
+MOTOR_API std::vector<std::unique_ptr<Entidad>>& EntidadManager::getAllEntities() {
 	return _entities;
 }
 
-Entidad* EntidadManager::getEntidadByID(int id) {
+Entidad* EntidadManager::getEntityByID(int id) {
 	// Busca entre las entidades activas
 	Entidad* e = nullptr;
 	auto it = _entities.begin();

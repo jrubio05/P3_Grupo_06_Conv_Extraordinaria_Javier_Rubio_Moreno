@@ -4,18 +4,13 @@
 #include "EntidadManager.h"
 #include "Entidad.h"
 
-Transform::Transform() :
-	_position(), _scale({ 1,1,1 }), _rotation()
-{
-	
+Transform::Transform() : _position(), _scale({ 1,1,1 }), _rotation() {
 }
 
-Transform::~Transform()
-{
+Transform::~Transform() {
 }
 
-bool Transform::init(const std::map<std::string, std::string>& mapa)
-{
+bool Transform::init(const std::map<std::string, std::string>& mapa) {
 	if (mapa.find("parent") == mapa.end()
 		|| mapa.find("position") == mapa.end()
 		|| mapa.find("rotation") == mapa.end()
@@ -25,7 +20,7 @@ bool Transform::init(const std::map<std::string, std::string>& mapa)
 
 	std::string parentString = mapa.at("parent");
 	if (std::stoi(parentString) >= 0) {
-		setParent(EntidadManager::instance()->getEntidadByID(stoi(parentString))->getComponent<Transform>());
+		setParent(EntidadManager::instance()->getEntityByID(stoi(parentString))->getComponent<Transform>());
 	}
 
 	std::string posString = mapa.at("position");
@@ -51,17 +46,14 @@ bool Transform::init(const std::map<std::string, std::string>& mapa)
 	return true;
 }
 
-Transform* Transform::findChild(char* name)
-{
-	for (auto c : _children) {
+Transform* Transform::findChild(char* name) {
+	for (auto c : _children)
 		if (c->getEntidad()->getName() == name)
 			return c;
-	}
 	return nullptr;
 }
 
-void Transform::setParent(Transform* par)
-{
+void Transform::setParent(Transform* par) {
 	// Si teniamos otro padre, nos quitamos como hijos
 	if (_parent != nullptr)
 		_parent->removeChild(this);
@@ -241,15 +233,13 @@ void Transform::getParentData()
 	}
 }
 
-void Transform::translate(double x, double y, double z)
-{
+void Transform::translate(double x, double y, double z) {
 	_position.setX(_position.getX() + x);
 	_position.setY(_position.getY() + y);
 	_position.setZ(_position.getZ() + z);
 }
 
-void Transform::rotate(float xAngle, float yAngle, float zAngle, Space relativeTo)
-{
+void Transform::rotate(float xAngle, float yAngle, float zAngle, Space relativeTo) {
 	Quaterniola rot(Quaterniola::Euler({ xAngle, yAngle, zAngle }));
 	switch (relativeTo) {
 	case Space::Self:

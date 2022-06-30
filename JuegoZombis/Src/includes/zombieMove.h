@@ -3,8 +3,7 @@
 
 class Entidad;
 
-class ZombieMove : public Componente
-{
+class ZombieMove : public Componente {
 public:
 	ZombieMove();
 	virtual ~ZombieMove();

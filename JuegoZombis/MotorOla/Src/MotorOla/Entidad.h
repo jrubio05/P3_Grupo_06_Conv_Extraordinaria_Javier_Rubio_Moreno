@@ -1,9 +1,11 @@
 #pragma once
+
 #ifdef MOTOR_EXPORTS
 #define MOTOR_API __declspec(dllexport)
 #else
 #define MOTOR_API __declspec(dllimport)
 #endif
+
 #include <vector>
 #include "Componente.h"
 #include "utils/Vectola3D.h"
@@ -21,22 +23,18 @@ public:
 	MOTOR_API void update();
 	MOTOR_API void draw() {};
 	MOTOR_API bool isActive() const;
-	MOTOR_API void destroy();
 
 	MOTOR_API void OnCollisionEnter(Entidad* other);
 	MOTOR_API void OnTriggerEnter(Entidad* other);
 
 	MOTOR_API inline EntidadManager* getEntityMngr() const { return _entManager; }
-
 	MOTOR_API inline void setEntityMngr(EntidadManager* mngr) { _entManager = mngr; }
 
 	MOTOR_API inline int getID() { return _id; }
 
-	template<typename T>
-	bool hasComponent() {
+	template<typename T> bool hasComponent() {
 		return getComponent<T>() != nullptr;
 	}
-
 	// Devuelve un componente de la entidad, o nullptr si no lo tiene. Coste: O(N) :(
 	template<typename T> T* getComponent() {
 		T* ret = nullptr;
@@ -51,9 +49,8 @@ public:
 	Componente* addComponent(const std::string& compName, const std::map<std::string, std::string>& map);
 
 	MOTOR_API inline void setActive(bool state);
-	MOTOR_API inline void setName(std::string n) { _name = n; }
-
 	MOTOR_API std::string getName() const { return _name; }
+	MOTOR_API inline void setName(std::string n) { _name = n; }
 
 	MOTOR_API bool init();
 
@@ -78,7 +75,7 @@ private:
 
 	bool _needsOtherEntity = false;
 
-	//numero de veces que puedes intentar iniciar tus componentes (para evitar bucle infinito)
+	// número de veces que puedes intentar iniciar tus componentes (para evitar bucle infinito)
 	int _numTriesToLoad;
 	int j;
 };

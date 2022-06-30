@@ -36,11 +36,12 @@ void ZombieMove::onCollisionStart(Entidad* other) {
 
 void ZombieMove::update() {
 	// Busca la entidad del jugador
-	if (!_player) _player = EntidadManager::instance()->getEntidadByID(0);
+	if (!_player)
+		_player = EntidadManager::instance()->getEntityByID(0);
 
 	Vectola3D aux = _entity->getComponent<Transform>()->getPosition();
 
-	if (_entity->hasComponent<RigidBody>() && _entity->hasComponent<Transform>()){
+	if (_entity->hasComponent<RigidBody>() && _entity->hasComponent<Transform>()) {
 		// Se calcula la direccion
 		Vectola3D dir = _player->getComponent<Transform>()->getPosition() - _entity->getComponent<Transform>()->getPosition();
 

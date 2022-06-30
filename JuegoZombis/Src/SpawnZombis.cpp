@@ -13,7 +13,7 @@ bool SpawnZombis::init(const std::map<std::string, std::string>& mapa) {
 
 void SpawnZombis::update() {
 	clock_t auxc = clock();
-	if(auxc > lastZombie + TIME_TO_SPAWN) {
+	if (auxc > lastZombie + TIME_TO_SPAWN) {
 
 		lastZombie = auxc;
 

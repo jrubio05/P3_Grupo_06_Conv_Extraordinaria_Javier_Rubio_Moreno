@@ -162,7 +162,7 @@ void Motor::loadDLLGame() {
 bool Motor::loadScene(std::string name) {
 	try {
 		// Borra las entidades de la escena actual
-		EntidadManager::instance()->pauseEntidades();
+		EntidadManager::instance()->markAllEntitiesForDeletion();
 
 		// Devuelve la ruta de la escena
 		std::string sceneRoute = LoadResources::instance()->scene(name).c_str();
@@ -182,7 +182,7 @@ bool Motor::loadScene(std::string name) {
 bool Motor::loadMenu(std::string name,const char*get) {
 	try {
 		// Borra las entidades de la escena actual
-		EntidadManager::instance()->pauseEntidades();
+		EntidadManager::instance()->markAllEntitiesForDeletion();
 
 		// Devuelve la ruta de la escena
 		std::string sceneRoute = LoadResources::instance()->scene(name).c_str();

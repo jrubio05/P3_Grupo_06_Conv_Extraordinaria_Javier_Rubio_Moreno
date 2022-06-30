@@ -94,10 +94,7 @@ void GameManager::addLives(int livesToAdd) { // también sirve para substraer
 
 void GameManager::endGame() {
 	// Manda borrar todas las entidades
-	int n = EntidadManager::instance()->getAllEntidades().size();
-
-	for (int i = 0; i < n; i++)
-		EntidadManager::instance()->getAllEntidades().at(i)->setActive(false);
+	EntidadManager::instance()->markAllEntitiesForDeletion();
 
 	// Borra los paneles
 	OverlayManager::instance()->clear();

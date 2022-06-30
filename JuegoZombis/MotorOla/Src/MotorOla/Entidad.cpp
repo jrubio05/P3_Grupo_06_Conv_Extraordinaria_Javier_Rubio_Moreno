@@ -11,8 +11,7 @@
 Entidad::Entidad(): _entManager(nullptr), active(true) {
 }
 
-Entidad::Entidad(std::string entityName, int id) : _entManager(nullptr), active(true),
-	_name(entityName), _id(id) {
+Entidad::Entidad(std::string entityName, int id) : _entManager(nullptr), active(true), _name(entityName), _id(id) {
 }
 
 Entidad::~Entidad() {
@@ -34,10 +33,6 @@ bool Entidad::isActive() const {
 	return active;
 }
 
-void Entidad::destroy() {
-	active = false;
-}
-
 void Entidad::OnCollisionEnter(Entidad* other) {
 	if (this!=nullptr && other!=nullptr)
 		for (auto& c : components)
@@ -51,7 +46,6 @@ void Entidad::OnTriggerEnter(Entidad* other) {
 			if (c.get()->_entity->isActive() && other->isActive())
 				c->onTriggerStart(other);
 }
-
 
 Componente* Entidad::addComponent(const std::string& compName, const std::map<std::string, std::string>& map) {
 	Componente* t = ComponenteFactoria::instance()->getComponent(compName);
@@ -68,7 +62,8 @@ Componente* Entidad::addComponent(const std::string& compName, const std::map<st
 
 inline void Entidad::setActive(bool state) {
 	active = state;
-	if (hasComponent<Mesh>()) getComponent<Mesh>()->setVisible(state);
+	if (hasComponent<Mesh>())
+		getComponent<Mesh>()->setVisible(state);
 }
 
 bool Entidad::init() {
@@ -108,9 +103,7 @@ Entidad* Entidad::instantiate(std::string name, Vectola3D position, Quaterniola 
 	Entidad* ent = readPrefab(path);
 	ent->getComponent<Transform>()->setPosition(position);
 	ent->getComponent<Transform>()->setRotation(rotation);
-	if (ent->getComponent<RigidBody>() != nullptr) {
+	if (ent->getComponent<RigidBody>() != nullptr)
 		PhysxManager::instance()->setGlobalToPhysxTR(*ent, *ent->getComponent<RigidBody>()->getBody());
-	}
-
 	return ent;
 }

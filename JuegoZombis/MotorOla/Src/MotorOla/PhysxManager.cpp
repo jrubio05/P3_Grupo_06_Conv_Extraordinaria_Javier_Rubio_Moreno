@@ -157,8 +157,8 @@ void PhysxManager::update(bool interactive, double t) {
 		return;
 
 	// Actualiza las posiciones: Transform global --> PxTransform
-	auto it = EntidadManager::instance()->getAllEntidades().begin();
-	while (it != EntidadManager::instance()->getAllEntidades().end()) {
+	auto it = EntidadManager::instance()->getAllEntities().begin();
+	while (it != EntidadManager::instance()->getAllEntities().end()) {
 		Entidad* e = (*it).get();
 		it++;
 		if (e->getComponent<RigidBody>() == nullptr) continue;
@@ -170,8 +170,8 @@ void PhysxManager::update(bool interactive, double t) {
 	stepPhysics(interactive, 1.0f/60.0f);
 
 	// Actualiza las posiciones: PxTransform --> Transform global
-	it = EntidadManager::instance()->getAllEntidades().begin();
-	while (it != EntidadManager::instance()->getAllEntidades().end()) {
+	it = EntidadManager::instance()->getAllEntities().begin();
+	while (it != EntidadManager::instance()->getAllEntities().end()) {
 		Entidad* e = (*it).get();
 		it++;
 		if (e->getComponent<RigidBody>() == nullptr) continue;
@@ -253,8 +253,8 @@ Transform PhysxManager::physxToGlobalTR(const PxRigidActor& body) {
 
 MOTOR_API Entidad* PhysxManager::findEntityByPxActor(PxActor* actor) {
 	RigidBody* body = nullptr;
-	auto it = EntidadManager::instance()->getAllEntidades().begin();
-	while (it != EntidadManager::instance()->getAllEntidades().end()) {
+	auto it = EntidadManager::instance()->getAllEntities().begin();
+	while (it != EntidadManager::instance()->getAllEntities().end()) {
 		Entidad* e = (*it).get();
 		it++;
 
@@ -413,7 +413,6 @@ void PhysxManager::debugBall() {
 	}
 }
 
-#include "RigidBody.h"
 void PhysxManager::debugBuddy(Entidad* e) {
 	if (GetLastTime() - GlobalTimer > 2.0) {
 		RigidBody* body = e->getComponent<RigidBody>();
@@ -430,23 +429,6 @@ void PhysxManager::debugBody(PxRigidDynamic* rd) {
 		std::cout << "Position RB = " << tr.p << "\n";
 		std::cout << "Orientation RB = " << tr.q << "\n";
 		GlobalTimer = GetLastTime();
-	}
-}
-
-void PhysxManager::debugAllBodies()
-{
-	if (GetLastTime() - GlobalTimer > 2.0) {
-		auto it = EntidadManager::instance()->getAllEntidades().begin();
-		while (it != EntidadManager::instance()->getAllEntidades().end()) {
-			Entidad* e = (*it).get();
-			it++;
-			if (e->getComponent<RigidBody>() == nullptr) continue;
-			RigidBody* body = e->getComponent<RigidBody>();
-			if (body->getBody()) {
-				std::cout << "> Dynamic pos: " << body->getBody()->getGlobalPose().p << "\n";
-				std::cout << "> Dynamic rot: " << body->getBody()->getGlobalPose().q << "\n";
-			}
-		}
 	}
 }
 

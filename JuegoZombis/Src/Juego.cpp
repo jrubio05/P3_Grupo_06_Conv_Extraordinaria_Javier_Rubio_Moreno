@@ -51,7 +51,7 @@ int LoadGame() {
 	
 	// vvv Carga la musica de fondo del juego vvv
 	try {
-		EntidadManager::instance()->addEntidad("music", 1);	// Se crea una entidad para la musica
+		EntidadManager::instance()->addEntity("music", 1);	// Se crea una entidad para la musica
 		FMODAudioManager::instance()->loadMusic(0, LoadResources::instance()->aud("GameMusicShort.mp3").c_str());
 		FMODAudioManager::instance()->playMusic(0, true);
 		FMODAudioManager::instance()->loadMusic(1, LoadResources::instance()->aud("click.mp3").c_str());

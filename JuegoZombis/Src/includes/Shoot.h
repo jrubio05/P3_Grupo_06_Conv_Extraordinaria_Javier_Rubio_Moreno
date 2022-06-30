@@ -3,8 +3,7 @@
 
 typedef long clock_t;
 
-class Shoot : public Componente
-{
+class Shoot : public Componente {
 public:
     Shoot();
     ~Shoot();

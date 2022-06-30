@@ -25,7 +25,7 @@ void Personaje::takeDamage(double dmg)
 	//Si el personaje pierde toda la vida se destruira. Se tiene que hacer una distincion entre los zombis y el jugador
 	//la distincion puede ser si tiene el componente jugador o zombi
 	if (health <= 0) {
-		_entity->destroy();
+		_entity->setActive(false);
 	}
 }
 

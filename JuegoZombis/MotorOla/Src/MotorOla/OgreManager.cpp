@@ -97,8 +97,6 @@ void OgreManager::createRoot() {
 }
 
 void OgreManager::shutdown() {
-	InputManager::instance()->refresh(); // ?????
-
 	// Borra la ventana
 	if (_window.render != nullptr) {
 		_root->destroyRenderTarget(_window.render);

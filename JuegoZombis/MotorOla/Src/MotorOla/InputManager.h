@@ -29,7 +29,7 @@ public:
 
 	// clear the state
 	MOTOR_API inline void clearState() {
-		_isCloseWindowEvent = false;
+		_isQuitEvent = false;
 		_isKeyDownEvent = false;
 		_isKeyUpEvent = false;
 		_isMouseButtonEvent = false;
@@ -39,13 +39,11 @@ public:
 	// update the state with a new event
 	MOTOR_API inline void update(const SDL_Event& event) {
 		switch (event.type) {
-		case SDL_QUIT:
-			break;
 		case SDL_KEYDOWN:
-			onKeyDown(event);
+			_isKeyDownEvent = true;
 			break;
 		case SDL_KEYUP:
-			onKeyUp(event);
+			_isKeyUpEvent = true;
 			break;
 		case SDL_MOUSEMOTION:
 			onMouseMotion(event);
@@ -56,48 +54,33 @@ public:
 		case SDL_MOUSEBUTTONUP:
 			onMouseButtonChange(event, false);
 			break;
-		case SDL_WINDOWEVENT:
+		/*case SDL_WINDOWEVENT:
 			handleWindowEvent(event);
+			break;*/
+		case SDL_QUIT:
+			_isQuitEvent = true;
 			break;
 		default:
 			break;
 		}
 	}
 
-	// refresh
-	MOTOR_API inline void refresh() {
-		SDL_Event event;
-		clearState();
-		while (SDL_PollEvent(&event))
-			update(event);
-	}
-
 	// close window event
 	MOTOR_API inline bool closeWindowEvent() {
-		return _isCloseWindowEvent;
+		return _isQuitEvent;
 	}
 
 	// keyboard
-	MOTOR_API inline bool keyDownEvent() {
-		return _isKeyDownEvent;
-	}
-
-	MOTOR_API inline bool keyUpEvent() {
-		return _isKeyUpEvent;
-	}
-
 	MOTOR_API inline bool isKeyDown(SDL_Scancode key) {
-		return keyDownEvent() && _kbState[key] == 1;
+		return _isKeyDownEvent && _kbState[key] == 1;
 	}
-
 	MOTOR_API inline bool isKeyDown(SDL_Keycode key) {
 		return isKeyDown(SDL_GetScancodeFromKey(key));
 	}
 
 	MOTOR_API inline bool isKeyUp(SDL_Scancode key) {
-		return keyUpEvent() && _kbState[key] == 0;
+		return _isKeyUpEvent && _kbState[key] == 0;
 	}
-
 	MOTOR_API inline bool isKeyUp(SDL_Keycode key) {
 		return isKeyUp(SDL_GetScancodeFromKey(key));
 	}
@@ -127,13 +110,14 @@ public:
 	}
 
 private:
-	inline void onKeyDown(const SDL_Event&) {
-		_isKeyDownEvent = true;
-	}
-
-	inline void onKeyUp(const SDL_Event&) {
-		_isKeyUpEvent = true;
-	}
+	bool _isKeyDownEvent;
+	bool _isKeyUpEvent;
+	bool _isMouseMotionEvent;
+	bool _isMouseButtonEvent;
+	bool _isQuitEvent;
+	std::pair<Sint32, Sint32> _mousePos;
+	std::array<bool, 3> _mbState;
+	const Uint8* _kbState;
 
 	inline void onMouseMotion(const SDL_Event& event) {
 		_isMouseMotionEvent = true;
@@ -158,22 +142,11 @@ private:
 		}
 	}
 
-	inline void handleWindowEvent(const SDL_Event& event) {
-		switch (event.window.event) {
-		case SDL_WINDOWEVENT_CLOSE:
-			_isCloseWindowEvent = true;
-			break;
-		default:
-			break;
-		}
-	}
-
-	bool _isCloseWindowEvent;
-	bool _isKeyUpEvent;
-	bool _isKeyDownEvent;
-	bool _isMouseMotionEvent;
-	bool _isMouseButtonEvent;
-	std::pair<Sint32, Sint32> _mousePos;
-	std::array<bool, 3> _mbState;
-	const Uint8* _kbState;
+	//inline void handleWindowEvent(const SDL_Event& event) {
+	//	switch (event.window.event) {
+	//	case SDL_WINDOWEVENT_CLOSE:
+	//	default:
+	//		break;
+	//	}
+	//}
 };

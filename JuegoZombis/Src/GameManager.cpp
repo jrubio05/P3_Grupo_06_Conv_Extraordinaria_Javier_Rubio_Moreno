@@ -29,7 +29,8 @@ void GameManager::initGame() {
 	Ogre::TextAreaOverlayElement* p = OverlayManager::instance()->getTexto("PuntosTextoPanel", "PuntosTexto");
 
 	// Si encuentra el texto
-	if (p != nullptr) p->setCaption("POINTS: " + std::to_string(points));
+	if (p != nullptr)
+		p->setCaption("POINTS: " + std::to_string(points));
 
 	// Crea un texto de puntuacion y un fondo
 	lives = INIT_LIVES;
@@ -40,8 +41,8 @@ void GameManager::initGame() {
 	Ogre::TextAreaOverlayElement* v = OverlayManager::instance()->getTexto("VidasTextoPanel", "VidasTexto");
 
 	// Si encuentra el texto
-	if (v != nullptr) v->setCaption("VIDAS: " + std::to_string(lives));
-
+	if (v != nullptr)
+		v->setCaption("VIDAS: " + std::to_string(lives));
 }
 
 int GameManager::getPoints() {
@@ -73,7 +74,8 @@ void GameManager::updateLiveText() {
 	if (v != nullptr) v->setCaption("VIDAS: " + std::to_string(lives));
 
 	// Se comprueba si se han perdido todas las vidas
-	if (lives <= 0) endGame();
+	if (lives <= 0)
+		endGame();
 }
 
 int GameManager::getLives() {
@@ -96,12 +98,10 @@ void GameManager::endGame() {
 
 	for (int i = 0; i < n; i++)
 		EntidadManager::instance()->getAllEntidades().at(i)->setActive(false);
-	
-	EntidadManager::instance();
 
 	// Borra los paneles
 	OverlayManager::instance()->clear();
 
 	// Cambia al estado de fin
-	EndState* e = new EndState();
+	EndState* e = new EndState(); // OBJETO DEJADO EN EL LIMBO! -> MAL
 }

@@ -37,8 +37,7 @@ void SpawnZombis::update() {
 			z += mz;
 		}
 
-		zombie->getComponent<Transform>()->setPosition(
-			zombie->getComponent<Transform>()->getPosition() + Vectola3D(x, 0, z)
-		);
+		zombie->getComponent<Transform>()->setPosition(zombie->getComponent<Transform>()->getPosition()
+			+ Vectola3D(x, 0, z));
 	}
 }

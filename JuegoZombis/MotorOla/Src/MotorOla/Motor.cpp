@@ -48,8 +48,7 @@ Motor::~Motor() {
 	FMODAudioManager::close();
 	EntidadManager::close();
 	OgreManager::close();
-	// CUIDADO: OgreManager espera que InputManager exista en OgreManager::shutdown() (no comprendo por qué)
-	InputManager::close();	// CUIDADO: Ogre ----> Input
+	InputManager::close();
 	LoadResources::close();
 	std::cout << "MANAGERS ELIMINADOS\n";
 }
@@ -58,7 +57,7 @@ Motor::~Motor() {
 void Motor::initSystems() {
 	// Inicia los managers
 	LoadResources::init("./Assets");
-	InputManager::init();  // CUIDADO: Input ----> Ogre
+	InputManager::init();
 	OgreManager::init("Motor De UCMGDVP32022G6");
 	EntidadManager::init();
 	FMODAudioManager::init();
@@ -106,22 +105,23 @@ void Motor::mainLoop() {
 	std::cout << EntidadManager::instance() << "\n";
 
 	while (!stop) {
+		//
+		EntidadManager::instance()->refresh();
+
 		// Recoger el Input
 		InputManager::instance()->clearState();
-
 		while (SDL_PollEvent(&event))
 			InputManager::instance()->update(event);
 
-		// Cierra la aplicacion con ESCAPE
-		if (InputManager::instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
+		// Cierra la aplicacion con ESCAPE o al dar a la cruz
+		if (InputManager::instance()->isKeyDown(SDL_SCANCODE_ESCAPE)
+				|| InputManager::instance()->closeWindowEvent()) {
 			stop = true;
 			continue;
 		}
 
 		// Actualizar las fisicas de las entidades
 		PhysxManager::instance()->runPhysX();
-
-		EntidadManager::instance()->refresh();
 
 		// Actualiza los transforms de las entities después de las físicas
 		if (OverlayManager::instance() != nullptr) {

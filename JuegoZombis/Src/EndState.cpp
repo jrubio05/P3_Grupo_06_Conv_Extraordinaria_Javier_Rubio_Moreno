@@ -70,9 +70,6 @@ void EndState::backToMenu(Motor* m) {
 	OverlayManager::instance()->clear();
 	FMODAudioManager::instance()->playMusic(1, false);
 
-	// Para evitar pulsar el boton del otro menu
-	InputManager::instance()->refresh();
-
 	MainMenu* mainMenu = new MainMenu();
 }
 
@@ -137,13 +134,13 @@ void EndState::writeFile() {
 
 void EndState::putName() {
 	int i = 0;
-	while(i < 3 && saltar == false) {
-		InputManager::instance()->refresh();
+	saltar = true;	///
+	while(i < 3 && !saltar) {
+		//InputManager::instance()->refresh();
 		if (InputManager::instance()->getMouseButtonState(InputManager::instance()->RIGHT)) {
 			saltar = true;
 		}
 		else {
-#pragma region alfabet
 			if (InputManager::instance()->isKeyDown(SDL_SCANCODE_A)) {
 				name += "A";
 				i++;
@@ -248,7 +245,6 @@ void EndState::putName() {
 				name += "Z";
 				i++;
 			}
-#pragma endregion
 		}
 	}
 }

@@ -213,8 +213,9 @@ Vectola3D Transform::inverseTransformDirection(float x, float y, float z) {
 				 abs(z - _parent->getLocalPosition().getZ()) };
 }
 
-void Transform::getParentData()
-{
+void Transform::getParentData() {
+	if (!this)
+		return;
 	if (getParent()) {
 		_rotation = getParent()->getRotation() * _localRotation;
 

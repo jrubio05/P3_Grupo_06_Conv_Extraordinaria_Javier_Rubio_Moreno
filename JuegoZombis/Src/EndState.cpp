@@ -13,6 +13,20 @@
 #include "Ogre.h"
 
 EndState::EndState() {
+    //--- ---//
+    char* buf = nullptr;
+    size_t sz = 0;
+    std::string userProfile;
+    if (_dupenv_s(&buf, &sz, "USERPROFILE") == 0 && buf != nullptr) {
+        userProfile = buf;
+        free(buf);
+        maxScoresPath = userProfile + "\\" + maxScoresFilename;
+    }
+    else {
+        maxScoresPath += maxScoresFilename;
+    }
+    //--- ---//
+
 	// Pone la foto de fondo
 	OverlayManager::instance()->creaPanel(0.0f, 0.0f, "EndMenuBGPanel", "EndMenuBG", 1.0f, 1.0f);
 
@@ -42,7 +56,7 @@ EndState::~EndState() {
 }
 
 void EndState::arch() {
-	readFile();
+	readMaxScoresFile();
 	std::pair<string, int>p;
 	putName();
 
@@ -59,7 +73,7 @@ void EndState::arch() {
 		p.second = GameManager::GetInstance()->getPoints();
 		bool añadido = compYOrdMaxPoints(p);
 		if (añadido)
-			writeFile();
+			writeMaxScoresFile();
 	}
 
 	OverlayManager::instance()->creaTexto(0.2, 0.5, resultText, "RecordText3", 0.06, "RecordPanel3", 0.6, 0.2);
@@ -73,9 +87,9 @@ void EndState::backToMenu(Motor* m) {
 	MainMenu* mainMenu = new MainMenu();
 }
 
-void EndState::readFile() {
+void EndState::readMaxScoresFile() {
 	ifstream file;
-	file.open(s.c_str());
+	file.open(maxScoresPath.c_str());
 	if (file.is_open()) {
 		string f;
 		while (getline(file, f)) {
@@ -118,9 +132,9 @@ bool EndState::compYOrdMaxPoints(std::pair<std::string, int>p) {
 	return false;
 }
 
-void EndState::writeFile() {
+void EndState::writeMaxScoresFile() {
 	ofstream file;
-	file.open(s.c_str());
+	file.open(maxScoresPath.c_str());
 	if (!file.is_open()) {
 		std::cout << "Archivo no abierto" << std::endl;
 	}
@@ -133,118 +147,19 @@ void EndState::writeFile() {
 }
 
 void EndState::putName() {
-	int i = 0;
-	saltar = true;	///
-	while(i < 3 && !saltar) {
-		//InputManager::instance()->refresh();
-		if (InputManager::instance()->getMouseButtonState(InputManager::instance()->RIGHT)) {
-			saltar = true;
-		}
-		else {
-			if (InputManager::instance()->isKeyDown(SDL_SCANCODE_A)) {
-				name += "A";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_B)) {
-				name += "B";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_C)) {
-				name += "C";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_D)) {
-				name += "D";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_E)) {
-				name += "E";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_F)) {
-				name += "F";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_G)) {
-				name += "G";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_H)) {
-				name += "H";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_I)) {
-				name += "I";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_J)) {
-				name += "J";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_K)) {
-				name += "K";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_L)) {
-				name += "L";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_M)) {
-				name += "M";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_N)) {
-				name += "N";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_O)) {
-				name += "O";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_P)) {
-				name += "P";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_Q)) {
-				name += "Q";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_R)) {
-				name += "R";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_S)) {
-				name += "S";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_T)) {
-				name += "T";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_U)) {
-				name += "U";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_V)) {
-				name += "V";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_W)) {
-				name += "W";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_X)) {
-				name += "X";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_Y)) {
-				name += "Y";
-				i++;
-			}
-			else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_Z)) {
-				name += "Z";
-				i++;
-			}
-		}
+	/*
+	https://stackoverflow.com/questions/21428407/c-how-to-get-the-user-folder
+	https://stackoverflow.com/questions/15916695/can-anyone-give-me-example-code-of-dupenv-s <--
+	*/
+	char* buf = nullptr;
+	size_t sz = 0;
+	char aux[4];
+	if (_dupenv_s(&buf, &sz, "USERNAME") == 0 && buf != nullptr) {
+		strncpy_s(aux, buf, 3);
+		free(buf);
+		name = aux;
+	}
+	else {
+		name = "KSA";
 	}
 }

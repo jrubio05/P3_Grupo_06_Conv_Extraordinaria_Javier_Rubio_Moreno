@@ -6,16 +6,13 @@
 #define M_PI 3.14159265358979323846264338327950288
 #endif
 
-Vectola3D::Vectola3D() :
-	_x(), _y(), _z() {
+Vectola3D::Vectola3D() : _x(), _y(), _z() {
 }
 
-Vectola3D::Vectola3D(const Vectola3D& v) :
-	_x(v.getX()), _y(v.getY()), _z(v.getZ()) {
+Vectola3D::Vectola3D(const Vectola3D& v) : _x(v.getX()), _y(v.getY()), _z(v.getZ()) {
 }
 
-Vectola3D::Vectola3D(double x, double y, double z) :
-	_x(x), _y(y), _z(z) {
+Vectola3D::Vectola3D(double x, double y, double z) : _x(x), _y(y), _z(z) {
 }
 
 Vectola3D::~Vectola3D() {
@@ -54,7 +51,6 @@ Vectola3D Vectola3D::rotate(double degrees) const {
 
 // TO DO
 double Vectola3D::angle(const Vectola3D& v) const {
-
 	double a2 = atan2(v.getX(), v.getY());
 	double a1 = atan2(_x, _y);
 	//double sign = a1 > a2 ? 1 : -1;
@@ -79,13 +75,11 @@ Vectola3D Vectola3D::normalize() const {
 	return r;
 }
 
-MOTOR_API bool Vectola3D::operator==(const Vectola3D& v) const
-{
+MOTOR_API bool Vectola3D::operator==(const Vectola3D& v) const {
 	return (_x == v.getX() && _y == v.getY() && _z == v.getZ());
 }
 
-Ogre::Vector3 Vectola3D::convertOgreVector(const Vectola3D& v) const
-{
+Ogre::Vector3 Vectola3D::convertOgreVector(const Vectola3D& v) const {
 	return Ogre::Vector3(v.getX(), v.getX(), v.getZ());
 }
 

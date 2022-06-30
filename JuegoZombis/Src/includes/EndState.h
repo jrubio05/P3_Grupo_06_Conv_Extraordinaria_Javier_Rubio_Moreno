@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include <string>
 
@@ -8,12 +9,9 @@ class MainMenu;
 class LuaReader;
 
 using CallBackOnClick = void(Motor* m);
-const std::string s = "../../Exes/Assets/maxScore.txt";
-//string s = "./Assets/maxScore.txt";
 const int NUM_MAXRECORDS = 5;
 
-class EndState
-{
+class EndState {
 public:
 	EndState();
 	~EndState();
@@ -23,12 +21,15 @@ public:
 private:
 	// Funciones
 	static void backToMenu(Motor* m);
-	void readFile();
+	void readMaxScoresFile();
 	bool compYOrdMaxPoints(std::pair<std::string,int>p);
-	void writeFile();
+	void writeMaxScoresFile();
 	void putName();
 
 	// Variables
+	const std::string maxScoresFilename = ".juegozombis_maxscores";
+	std::string maxScoresPath = ".\\";
+	//
 	bool saltar = false;
 	std::string name;
 	std::vector<std::pair<std::string, int>> maxPoints;

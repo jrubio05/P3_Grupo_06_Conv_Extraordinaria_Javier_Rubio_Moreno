@@ -97,8 +97,11 @@ void GameManager::endGame() {
 	EntidadManager::instance()->markAllEntitiesForDeletion();
 
 	// Borra los paneles
-	OverlayManager::instance()->clear();
+	OverlayManager::instance()->clear(); 
 
 	// Cambia al estado de fin
-	EndState* e = new EndState(); // OBJETO DEJADO EN EL LIMBO! -> MAL
+	//
+	// OBJETO DEJADO EN EL LIMBO! -> MAL
+	// MONTA UI CABLEADA -> MAL
+	EndState* e = new EndState();
 }

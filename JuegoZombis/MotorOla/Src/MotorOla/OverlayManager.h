@@ -11,22 +11,17 @@
 #include <Ogre.h>
 #include "OverlayManager.h"
 
-
-
+#include <OgreOverlay.h>
 #include <OgreOverlayElement.h>
-
 #include <OgreOverlaySystem.h>
 #include <OgreOverlayElement.h>
 #include <OgreOverlayManager.h>
-#include <OgreFontManager.h>
-#include <OgreTextAreaOverlayElement.h>
 #include <OgreOverlayContainer.h>
-
-
-
 #include "OgreOverlayPrerequisites.h"
 #include <OgrePanelOverlayElement.h>
-#include <OgreOverlay.h>
+
+#include <OgreFontManager.h>
+#include <OgreTextAreaOverlayElement.h>
 
 #include <vector>
 

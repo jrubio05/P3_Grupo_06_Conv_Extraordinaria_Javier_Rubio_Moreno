@@ -13,8 +13,8 @@
 
 #include "Entidad.h"
 #include "ContactReportCallback.h"
-class Transform;
 
+class Transform;
 
 using namespace physx;
 

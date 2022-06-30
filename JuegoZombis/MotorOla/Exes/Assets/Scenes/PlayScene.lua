@@ -41,13 +41,13 @@ local level = {
                     lifefactor="0.05"
                 },
                 jugador={
-                    speed="500"
+                    speed="600"
                 },
                 lookatMouse={
                     test="false"
                 },
 				shoot={
-					shootTime="500"
+					shootTime="250"
 				}
             }
         },

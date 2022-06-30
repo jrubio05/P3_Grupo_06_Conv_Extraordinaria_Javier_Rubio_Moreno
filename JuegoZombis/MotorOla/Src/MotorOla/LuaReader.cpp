@@ -42,9 +42,8 @@ void readFile(std::string file) {
 	l = luaL_newstate();
 	openlualibs(l);
 
-#if _DEBUG
-	std::printf("now calling lua\n\n");
-#endif
+	//--
+
 	// Intenta abrir el archivo .lua
 	if (!luaL_loadfile(l, file.c_str()) && lua_pcall(l, 0, 0, 0)) {
 		std::cout << lua_tostring(l, -1) << "\n";
@@ -182,9 +181,9 @@ void readFile(std::string file) {
 		}
 
 		lua_pop(l, 2);
-#if _DEBUG
-		std::printf("\ndo something else\n\n");
-#endif
+
+		//--
+
 		lua_close(l);
 
 		int initTotales = 0;

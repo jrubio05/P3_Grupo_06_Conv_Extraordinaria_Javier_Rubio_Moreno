@@ -1,10 +1,6 @@
 #include "ContactReportCallback.h"
 #include "PhysxManager.h"
 
-#if _DEBUG
-	const bool debugCom = false;
-#endif
-
 physx::PxFilterFlags contactReportFilterShader(physx::PxFilterObjectAttributes attributes0, physx::PxFilterData filterData0,
 		physx::PxFilterObjectAttributes attributes1, physx::PxFilterData filterData1,
 		physx::PxPairFlags& pairFlags, const void* constantBlock, physx::PxU32 constantBlockSize) {
@@ -26,7 +22,7 @@ physx::PxFilterFlags contactReportFilterShader(physx::PxFilterObjectAttributes a
 void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHeader,
 	const physx::PxContactPair* pairs, physx::PxU32 nbPairs) {
 #if _DEBUG
-	if (debugCom) printf("onContact: %d pairs\n", nbPairs);
+	printf("onContact: %d pairs\n", nbPairs);
 
 	while (nbPairs--) {
 		const PxContactPair& current = *pairs++;
@@ -39,12 +35,11 @@ void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHead
 		// in a hash-set and test the reported shape pointers against it. Many options here.
 
 		if (current.events & (PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_CCD))
-			if (debugCom) printf("Shape is entering trigger volume\n");
+			printf("Shape is entering trigger volume\n");
 		if (current.events & PxPairFlag::eNOTIFY_TOUCH_LOST)
-			if (debugCom) printf("Shape is leaving trigger volume\n");
-
+			printf("Shape is leaving trigger volume\n");
 		if (isTriggerShape(current.shapes[0]) && isTriggerShape(current.shapes[1]))
-			if (debugCom) printf("Trigger-trigger overlap detected\n");
+			printf("Trigger-trigger overlap detected\n");
 	}	
 #endif
 
@@ -55,16 +50,16 @@ void ContactReportCallback::onContact(const physx::PxContactPairHeader& pairHead
 
 void ContactReportCallback::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 #if _DEBUG
-	if (debugCom) printf("onTrigger: %d trigger pairs\n", count);
+	printf("onTrigger: %d trigger pairs\n", count);
 #endif
 	
 	while (count--) {
 		const PxTriggerPair& current = *pairs++;
 #if _DEBUG
 		if (current.status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
-			if (debugCom) printf("Shape is entering trigger volume\n");
+			printf("Shape is entering trigger volume\n");
 		if (current.status & PxPairFlag::eNOTIFY_TOUCH_LOST)
-			if (debugCom) printf("Shape is leaving trigger volume\n");
+			printf("Shape is leaving trigger volume\n");
 #endif
 
 		physx::PxActor* actor1 = current.otherActor;

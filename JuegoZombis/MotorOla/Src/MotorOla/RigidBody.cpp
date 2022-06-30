@@ -3,10 +3,6 @@
 #include "Collider.h"
 #include "Transform.h"
 
-#if _DEBUG
-	const bool debugCom = false;
-#endif
-
 RigidBody::RigidBody() {
 }
 
@@ -107,7 +103,7 @@ bool RigidBody::init(const std::map<std::string, std::string>& mapa) {
 		else
 			body = PhysxManager::instance()->createDynamic(pose, shape, _vel);
 #if _DEBUG
-		if (debugCom) std::cout << "Shape first - Rigidbody: set collider!\n";
+		std::cout << "Shape first - Rigidbody: set collider!\n";
 #endif
 	}
 	else {
@@ -116,7 +112,7 @@ bool RigidBody::init(const std::map<std::string, std::string>& mapa) {
 		else
 			body = PhysxManager::instance()->createDynamic(pose, _vel);
 #if _DEBUG
-		if (debugCom) std::cout << "Rigidbody - sin collider...\n";
+		std::cout << "Rigidbody - sin collider...\n";
 #endif
 	}
 
@@ -129,7 +125,7 @@ bool RigidBody::init(const std::map<std::string, std::string>& mapa) {
 		if (body) PxRigidBodyExt::updateMassAndInertia(*body, density);
 		else {
 #if _DEBUG
-			if (debugCom) std::cout << "RigidBody - ERROR: un static no usa density!\n";
+			std::cout << "RigidBody - ERROR: un static no usa density!\n";
 #endif
 			return false; // solo para dynamic!
 		}

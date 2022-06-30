@@ -1,5 +1,7 @@
 ### Para compilar el proyecto, ejecutar GeneraJuego.bat (dentro del directorio JuegoZombis) con "Developer Command Prompt for VS 2019".
+### La ejecución del script tarda en mi Intel Core i7-8750H unos 13 minutos en finalizar.
 ### La build resultado queda en JuegoZombis\MotorOla\Exes.
+### El fichero de máximas puntuaciones (.juegozombis_maxscores) debería quedar guardado en la carpeta personal del usuario tras la primera partida.
 
 # Motor de juego de "Proyectos 3"
 

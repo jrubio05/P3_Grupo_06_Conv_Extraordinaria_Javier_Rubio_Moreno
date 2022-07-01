@@ -13,7 +13,7 @@
 const clock_t TIME_TO_ANOTHER_ZOMBIE_CONTACT = 2000;
 const clock_t REPRODUCT_SOUND = 700;
 
-Jugador::Jugador() : transform_(nullptr), speed_(), v() {
+Jugador::Jugador() : transform_(nullptr), speed_(), velX(0), velY(0), velZ(0) {
 }
 
 bool Jugador::init(const std::map<std::string, std::string>& mapa) {
@@ -29,19 +29,18 @@ bool Jugador::init(const std::map<std::string, std::string>& mapa) {
 };
 
 void Jugador::update() {
-	Vectola3D aux = _entity->getComponent<Transform>()->getPosition();
 	if (_active) {
-		v.setY(0);
+		velZ = 0;
 		// Arriba - Abajo
 		if (InputManager::instance()->isKeyDown(SDL_SCANCODE_W)) {
-			v.setZ(-1);
+			velY = -1;
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
 				FMODAudioManager::instance()->playMusic(4, false);
 			}
 		}
 		else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_S)) {
-			v.setZ(1);
+			velY = 1;
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
 				FMODAudioManager::instance()->playMusic(4, false);
@@ -50,19 +49,19 @@ void Jugador::update() {
 		else if (InputManager::instance()->isKeyUp(SDL_SCANCODE_W)
 			|| InputManager::instance()->isKeyUp(SDL_SCANCODE_S))
 		{
-			v.setZ(0);
+			velY = 0;
 		}
 
 		// Izquierda - Derecha
 		if (InputManager::instance()->isKeyDown(SDL_SCANCODE_A)) {
-			v.setX(-1);
+			velX = -1;
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
 				FMODAudioManager::instance()->playMusic(4, false);
 			}
 		}
 		else if (InputManager::instance()->isKeyDown(SDL_SCANCODE_D)) {
-			v.setX(1);
+			velX = 1;
 			if (clock() > lastSound + REPRODUCT_SOUND) {
 				lastSound = clock();
 				FMODAudioManager::instance()->playMusic(4, false);
@@ -71,16 +70,16 @@ void Jugador::update() {
 		else if (InputManager::instance()->isKeyUp(SDL_SCANCODE_A)
 			|| InputManager::instance()->isKeyUp(SDL_SCANCODE_D))
 		{
-			v.setX(0);
+			velX = 0;
 		}
 
-		Vectola3D mov = v.normalize() * speed_;
+		physx::PxVec3 vel = PxVec3(velX, velY, velZ).getNormalized() * speed_;
 
 		// CINEMATIC
-		//_entity->getComponent<Transform>()->setPosition(_entity->getComponent<Transform>()->getPosition() + mov);
+		//_entity->getComponent<Transform>()->setPosition(_entity->getComponent<Transform>()->getPosition() + vel);
 
 		// PHYSICS
-		_entity->getComponent<RigidBody>()->setVelocity(physx::PxVec3(mov.getX(), mov.getY(), mov.getZ()));
+		_entity->getComponent<RigidBody>()->setVelocity(vel);
 	}
 }
 

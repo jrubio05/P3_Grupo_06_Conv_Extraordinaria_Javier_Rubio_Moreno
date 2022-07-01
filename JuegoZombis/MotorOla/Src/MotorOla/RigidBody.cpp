@@ -32,7 +32,7 @@ bool RigidBody::init(const std::map<std::string, std::string>& mapa) {
 	std::string tempString; // string auxiliar para guardar la subcadena actual
 
 	// Si no existe / no tiene el componente Transform, lee los datos de LUA
-	if (!tr || tr->getLocalPosition() == Vectola3D()) {
+	if (!tr || (tr->getPositionX() == 0 && tr->getPositionY() == 0)) {	// !!!
 		// comprobar que la secci�n existe
 		if (mapa.find("position") != mapa.end()) {
 			// Lee los datos de la posici�n
@@ -43,13 +43,13 @@ bool RigidBody::init(const std::map<std::string, std::string>& mapa) {
 			tempString = posString.substr(stot);
 			posZ = stof(tempString, &sact); stot += sact + 1; sact = 0;
 
-			// Establece las propiedades leidas...
+			// Establece las propiedades leídas...
 			_pos = PxVec3(posX, posY, posZ);
 		}
 
-		// comprobar que la secci�n existe
+		// comprobar que la sección existe
 		if (mapa.find("orientation") != mapa.end()) {
-			// Lee los datos de la orientaci�n
+			// Lee los datos de la orientación
 			std::string oriString = mapa.at("orientation");
 			oriX = stof(oriString, &sact); stot = sact + 1; sact = 0;
 			tempString = oriString.substr(stot);
@@ -59,18 +59,17 @@ bool RigidBody::init(const std::map<std::string, std::string>& mapa) {
 			tempString = oriString.substr(stot);
 			oriW = stof(tempString, &sact); stot += sact + 1; sact = 0;
 
-			// Establece las propiedades leidas...
+			// Establece las propiedades leídas...
 			_ori = PxQuat(oriX, oriY, oriZ, oriW);
 		}
 	}
 	else {
-		Vectola3D pos = tr->getLocalPosition();
-		Quaterniola rot = tr->getLocalRotation();
-		_pos = PxVec3(pos.getX(), pos.getY(), pos.getZ());
-		_ori = PxQuat(rot.v.getX(), rot.v.getX(), rot.v.getX(), rot.s);
+		float ang = tr->getRotation();
+		_pos = PxVec3(tr->getPositionX(), tr->getPositionY(), tr->getZHeight());
+		_ori = PxQuat(cos(ang / 2), 0, sin(ang / 2), 0);
 	}
 
-	// comprobar que la secci�n existe
+	// comprobar que la sección existe
 	if (mapa.find("velocity") != mapa.end()) {
 		// Lee los datos de la velocidad
 		std::string velString = mapa.at("velocity");
@@ -80,7 +79,7 @@ bool RigidBody::init(const std::map<std::string, std::string>& mapa) {
 		tempString = velString.substr(stot);
 		velZ = stof(tempString, &sact); stot += sact + 1; sact = 0;
 
-		// Establece las propiedades leidas...
+		// Establece las propiedades leídas...
 		_vel = PxVec3(velX, velY, velZ);
 		
 	}	

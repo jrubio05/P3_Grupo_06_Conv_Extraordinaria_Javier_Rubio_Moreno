@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include "InputManager.h"
 
+#include <foundation\PxVec3.h> // algo tramposo, pero no me fio del "Vectol"
+
 MoveBullet::MoveBullet() {
 }
 
@@ -18,44 +20,51 @@ bool MoveBullet::init(const std::map<std::string, std::string>& mapa) {
 	std::string temp = posString.substr(sz + 1);
 	float b = stof(temp, &sa);
 	float c = stof(posString.substr(sz + sa + 2));
-	dir = { a, b, c };
+	dirX = a;
+	dirY = b;
+	dirZ = c;
 
 	std::string velocityString = mapa.at("velocity");
-	vel = stof(velocityString);
+	speed = stof(velocityString);
 
 	_inicializado = true;
 	
     return true;
 }
 
-void MoveBullet::setVelocity(float v) {
-	vel = v;
+void MoveBullet::setSpeed(float s) {
+	speed = s;
 }
 
-void MoveBullet::setDireccion(Vectola3D d) {
-	dir = d;
+void MoveBullet::setDireccion(float x, float y, float z) {
+	dirX = x;
+	dirY = y;
+	dirZ = z;
 }
 
 void MoveBullet::update() {
 	if (isDirCalculated == false) {
-		Vectola3D aux = {
-			(SCALE_X * InputManager::instance()->getMousePosInGame().first) - _entity->getComponent<Transform>()->getPosition().getX(),
-			0,
-			(SCALE_Z * InputManager::instance()->getMousePosInGame().second) - _entity->getComponent<Transform>()->getPosition().getZ()
-		};
-		
-		setDireccion(aux);
-		dir = dir.normalize();
+		physx::PxVec3 vel; // ESTO NO ES PARA PHYSX, SINO TEMPORAL; AQUÍ TOMO LA 'Y' COMO ALTURA (ESTILO OGRE)
+		vel.x = (SCALE_X * InputManager::instance()->getMousePosInGame().first)
+			- _entity->getComponent<Transform>()->getPositionX();
+		vel.y = 0;
+		vel.z = (SCALE_Z * InputManager::instance()->getMousePosInGame().second)
+			- _entity->getComponent<Transform>()->getPositionY();
+
+		vel = vel.getNormalized() * speed;
+		setDireccion(vel.x, vel.y, vel.z);
 		isDirCalculated = true;
 	}
 
-	Vectola3D mov = { dir * vel };
-	_entity->getComponent<Transform>()->setPosition(_entity->getComponent<Transform>()->getPosition()+mov);
+	_entity->getComponent<Transform>()->setPosition(
+		_entity->getComponent<Transform>()->getPositionX() + dirX,
+		_entity->getComponent<Transform>()->getPositionY() + dirZ
+		);
 	
-	if (_entity->getComponent<Transform>()->getPosition().getX() > LIMIT_X
-		|| _entity->getComponent<Transform>()->getPosition().getX()< -LIMIT_X
-		|| _entity->getComponent<Transform>()->getPosition().getZ() > LIMIT_Z
-		||  _entity->getComponent<Transform>()->getPosition().getZ() < -LIMIT_Z)
+	if (_entity->getComponent<Transform>()->getPositionX() > LIMIT_X
+		|| _entity->getComponent<Transform>()->getPositionX() < -LIMIT_X
+		|| _entity->getComponent<Transform>()->getPositionY() > LIMIT_Z
+		|| _entity->getComponent<Transform>()->getPositionY() < -LIMIT_Z)
 	{
 		_entity->setActive(false);
 	}

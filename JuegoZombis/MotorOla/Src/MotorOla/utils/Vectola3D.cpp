@@ -70,7 +70,6 @@ Vectola3D Vectola3D::normalize() const {
 		r._x = r._x / mag;
 		r._y = r._y / mag;
 		r._z = r._z / mag;
-		
 	}
 	return r;
 }

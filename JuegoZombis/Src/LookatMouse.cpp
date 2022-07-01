@@ -6,6 +6,8 @@
 #include <OgreVector3.h>
 #include <tgmath.h>
 
+#include <foundation\PxVec3.h>	// ...
+
 LookatMouse::LookatMouse() : test(false)/*, tr_(nullptr)*/ {
 }
 
@@ -25,35 +27,21 @@ bool LookatMouse::init(const std::map<std::string, std::string>& mapa) {
 	return true;
 }
 
-void LookatMouse::debugMousePos() {
-	//if (im != nullptr) {
-	//	std::cout << im->getMousePos().first << ", " << im->getMousePos().second; //creo que esta cogiendo algo vacio
-	//}
-	//else {
-	//	std::cout << "INPUT MANAGER POINTER NULL IN LOOKATMOUSE";
-	//}
-	//std::cout << InputManager::instance()->getMousePos().first << ", " << InputManager::instance()->getMousePos().second << "\n";
-}
-
 void LookatMouse::rotateToMouse2D() {
 	MP = InputManager::instance()->getMousePosInGame();
 
-	float angle = atan2(MP.second - tr_->getPosition().getY(), MP.first - tr_->getPosition().getX());
+	float angle = atan2(MP.second - tr_->getPositionY(), MP.first - tr_->getPositionX());
 
-	angle *= -180 / M_PI;
+	///angle *= -180 / M_PI;
 	angle -= 90;
 
-	//std::cout << angle << std::endl;
+	std::cout << angle << std::endl;
 
-	Vectola3D v(0, angle, 0) ;
-	Quaterniola x = Quaterniola::Euler(v);
-
-	_entity->getComponent<Transform>()->setRotation(x);
+	_entity->getComponent<Transform>()->setRotation(angle);
 }
 
 void LookatMouse::update() {
 	if (_entity->hasComponent<Transform>()) {
-		//debugMousePos();
 		rotateToMouse2D();
 	}
 }

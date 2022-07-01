@@ -32,10 +32,21 @@ void Shoot::update() {
             lastBullet = auxc;
 
             // Se instancia la bala
-            Vectola3D pos = _entity->getComponent<Transform>()->getPosition();
-            pos.setY(0);
+            Vectola3D pos(
+                _entity->getComponent<Transform>()->getPositionX(),
+                _entity->getComponent<Transform>()->getPositionY(),
+                _entity->getComponent<Transform>()->getZHeight()
+            );
+            ///pos.setY(0);///
 
-            Entidad* bala = Entidad::instantiate("Bala.prefab", pos);
+            Entidad* bala = Entidad::instantiate(
+                "Bala.prefab",
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                0,
+                0.1
+            );
             FMODAudioManager::instance()->playMusic(2, false);
         }
     }

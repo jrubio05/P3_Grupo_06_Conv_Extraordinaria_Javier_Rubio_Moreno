@@ -39,11 +39,13 @@ void ZombieMove::update() {
 	if (!_player)
 		_player = EntidadManager::instance()->getEntityByID(0);
 
-	Vectola3D aux = _entity->getComponent<Transform>()->getPosition();
-
 	if (_entity->hasComponent<RigidBody>() && _entity->hasComponent<Transform>()) {
-		// Se calcula la direccion
-		Vectola3D dir = _player->getComponent<Transform>()->getPosition() - _entity->getComponent<Transform>()->getPosition();
+		// Se calcula la dirección
+		Vectola3D dir(
+			_player->getComponent<Transform>()->getPositionX() - _entity->getComponent<Transform>()->getPositionX(),
+			_player->getComponent<Transform>()->getPositionY() - _entity->getComponent<Transform>()->getPositionY(),
+			0
+		);
 
 		// Importante normalizar y añadir el speed
 		dir = dir.normalize() * _speed;
@@ -53,5 +55,12 @@ void ZombieMove::update() {
 
 		// PHYSX
 		_entity->getComponent<RigidBody>()->setVelocity(physx::PxVec3(dir.getX(), dir.getY(), dir.getZ()));
+
+		// Rotacion
+		float angle = atan2(_player->getComponent<Transform>()->getPositionY()
+			- _entity->getComponent<Transform>()->getPositionY(),
+			_player->getComponent<Transform>()->getPositionX()
+			- _entity->getComponent<Transform>()->getPositionX());
+		_entity->getComponent<Transform>()->setRotation(angle);
 	}
 }

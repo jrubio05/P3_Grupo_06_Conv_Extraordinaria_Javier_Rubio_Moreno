@@ -22,7 +22,9 @@ public:
 protected:
 	Transform* transform_;
 	float speed_;
-	Vectola3D v;
+	float velX;
+	float velY;
+	float velZ;//
 	clock_t lastZombieContact = 0;
 	clock_t lastSound = 0;
 };

@@ -98,11 +98,13 @@ bool Entidad::init() {
 	return true;
 }
 
-Entidad* Entidad::instantiate(std::string name, Vectola3D position, Quaterniola rotation) {
+Entidad* Entidad::instantiate(std::string name, float x, float y, float zH, float angle, float factor) {
 	std::string path = LoadResources::instance()->prefab(name);
 	Entidad* ent = readPrefab(path);
-	ent->getComponent<Transform>()->setPosition(position);
-	ent->getComponent<Transform>()->setRotation(rotation);
+	ent->getComponent<Transform>()->setPosition(x, y);
+	ent->getComponent<Transform>()->setRotation(angle);
+	ent->getComponent<Transform>()->setScale(factor);
+	ent->getComponent<Transform>()->setZHeight(zH);
 	if (ent->getComponent<RigidBody>() != nullptr)
 		PhysxManager::instance()->setGlobalToPhysxTR(*ent, *ent->getComponent<RigidBody>()->getBody());
 	return ent;

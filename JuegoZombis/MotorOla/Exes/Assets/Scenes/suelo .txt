@@ -4,9 +4,9 @@
             components={
                 transform={
                     parent="-1",
-                    position="0,0,0",
-                    rotation="0,0,0",
-                    scale="18,1,18"
+                    position="0,0",
+                    rotation="0",
+                    scale="18"
                 },
                 mesh={
                     mesh="cube.mesh",

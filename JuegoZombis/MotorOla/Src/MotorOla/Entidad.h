@@ -54,8 +54,8 @@ public:
 
 	MOTOR_API bool init();
 
-	MOTOR_API static Entidad* instantiate(std::string name, Vectola3D position = Vectola3D(),
-		Quaterniola rotation = Quaterniola());
+	MOTOR_API static Entidad* instantiate(std::string name, float x = 0, float y = 0,
+		float zH = 0, float angle = 0, float factor = 1);
 
 private:
 	std::string _name;

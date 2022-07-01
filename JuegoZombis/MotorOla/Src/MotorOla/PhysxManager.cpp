@@ -211,7 +211,6 @@ void PhysxManager::onTrigger(physx::PxActor* actor1, physx::PxActor* actor2) {
 		a->OnTriggerEnter(b);
 		if(a != nullptr && b != nullptr) b->OnTriggerEnter(a);
 	}
-
 	std::cout << "TRIGGER COLLISION detected!\n";
 }
 
@@ -219,15 +218,23 @@ void PhysxManager::onTrigger(physx::PxActor* actor1, physx::PxActor* actor2) {
 PxTransform PhysxManager::globalToPhysxTR(Transform& tr) {
 	PxTransform bodyTr = PxTransform();
 
-	Vectola3D trPos = tr.getPosition();
-	Quaterniola trRot = tr.getRotation();
-	trRot.normalize();
+	bodyTr.p = PxVec3(tr.getPositionX(), tr.getPositionY(), tr.getZHeight());
 
-	PxVec3 pos = PxVec3(trPos.getX(), trPos.getY(), trPos.getZ());
-	bodyTr.p = pos;
+	/*
+	===NOTA PROPIA===
+		* Ogre:		altura en Y
+		* PhysX:	altura en Z
+	===NOTA PROPIA===
 
-	PxQuat rot = PxQuat(trRot.v.getX(), trRot.v.getY(), trRot.v.getZ(), trRot.s);
-	bodyTr.q = rot;
+	===Extracto de diapositivas de IG2===
+	- Eje de rotación genérico normalizado : vector V = (Vx, Vy, Vz)
+	- Ángulo de rotación sobre el eje : θ
+		Esta información se guarda en la forma de cuaternión unitario :
+	(w, x, y, z) = (cos(θ / 2), Vx * sin(θ / 2), Vy * sin(θ / 2), Vz * sin(θ / 2))
+	*/
+
+	float ang = tr.getRotation();
+	bodyTr.q = PxQuat(cos(ang / 2), 0, sin(ang / 2), 0);
 
 	return bodyTr;
 }
@@ -242,11 +249,8 @@ Transform PhysxManager::physxToGlobalTR(const PxRigidActor& body) {
 	PxVec3 bodyPos = PxVec3(bodyTr.p);
 	PxQuat bodyRot = PxQuat(bodyTr.q);
 
-	Vectola3D pos = Vectola3D(bodyPos.x, bodyPos.y, bodyPos.z);
-	tr.setPosition(pos);
-
-	Quaterniola rot = Quaterniola(bodyRot.w, bodyRot.x, bodyRot.y, bodyRot.z);
-	tr.setRotation(rot);
+	tr.setPosition(bodyPos.x, bodyPos.y);
+	tr.setRotation(acos(bodyRot.w) * 2);
 
 	return tr;
 }
@@ -286,7 +290,7 @@ void PhysxManager::setGlobalToPhysxTR(Entidad& e, PxRigidActor& body) {
 void PhysxManager::setPhysxToGlobalTR(Entidad& e, PxRigidActor& body) {
 	Transform auxTR = physxToGlobalTR(body);
 	Transform* tr = e.getComponent<Transform>();
-	tr->setPosition(auxTR.getPosition());
+	tr->setPosition(auxTR.getPositionX(), auxTR.getPositionY());
 	tr->setRotation(auxTR.getRotation());
 }
 

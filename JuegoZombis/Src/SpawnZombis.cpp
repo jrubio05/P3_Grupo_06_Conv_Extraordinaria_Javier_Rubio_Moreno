@@ -13,8 +13,7 @@ bool SpawnZombis::init(const std::map<std::string, std::string>& mapa) {
 
 void SpawnZombis::update() {
 	clock_t auxc = clock();
-	if (auxc > lastZombie + TIME_TO_SPAWN) {
-
+	if (auxc > lastZombie + time_to_spawn) {
 		lastZombie = auxc;
 
 		Entidad* zombie = Entidad::instantiate("Zombie.prefab");
@@ -43,5 +42,6 @@ void SpawnZombis::update() {
 		);
 		zombie->getComponent<Transform>()->setZHeight(1);
 
+		increaseRatio();
 	}
 }

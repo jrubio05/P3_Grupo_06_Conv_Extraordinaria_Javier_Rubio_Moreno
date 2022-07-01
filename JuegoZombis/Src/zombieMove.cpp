@@ -31,6 +31,7 @@ void ZombieMove::onCollisionStart(Entidad* other) {
 		other->setActive(false);
 		// Destruir zombi
 		_entity->setActive(false);
+
 	}
 }
 

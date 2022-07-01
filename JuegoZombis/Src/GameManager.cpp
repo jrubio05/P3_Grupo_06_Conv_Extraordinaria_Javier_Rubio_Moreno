@@ -42,7 +42,7 @@ void GameManager::initGame() {
 
 	// Si encuentra el texto
 	if (v != nullptr)
-		v->setCaption("VIDAS: " + std::to_string(lives));
+		v->setCaption("LIVES: " + std::to_string(lives));
 }
 
 int GameManager::getPoints() {
